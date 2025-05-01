@@ -1,10 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 *{
     --bleuFonce: #080038;
     --GrisFonce: #2c2c2d;
+    --GrisClair: #b1b1b3;
     --GrisFonceTransparente: #2c2c2da1;
     --blanc: #fff;
     --Noir: #000000;
     --Ombre: 4px 7px 12px 0px #000000a6;
+    --Ombre2: 3px 3px 6px 0px #00000044;
+    --Ombre3:inset -1px -2px 6px 0px #0000001c;
 }
 
 body{
@@ -29,4 +34,34 @@ header{
     left: 50%;
     transform: translateX(-50%);
     box-shadow: var(--Ombre);
+    padding: 0 10px 0 10px;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 20;
+}
+
+a{
+    cursor: pointer;
+}
+
+.img-btn{
+    width: 35px;
+}
+
+.btn{
+    color: var(--blanc);
+    border-radius: 0.5rem;
+    font-family: 'Roboto';
+    width: auto;
+    height: 20px;
+    background-color: var(--GrisFonceTransparente);
+    padding: 5px 10px;
+    text-decoration: none;
+    box-shadow: var(--Ombre2);
+    transition: all 0.5s;
+}
+
+.btn:hover, .btn.pageActuel{
+    color: var(--GrisClair);
+    box-shadow: var(--Ombre3);
 }
