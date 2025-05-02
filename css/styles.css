@@ -9,6 +9,7 @@
     --ombre: 4px 7px 12px rgba(0, 0, 0, 0.65);
     --ombreBtn: 3px 3px 6px rgba(0, 0, 0, 0.27);
     --ombreInset: inset -1px -2px 6px rgba(0, 0, 0, 0.11);
+    --ombre2: 4px 7px 12px rgba(0, 0, 0, 0.65); /* ajout */
     --font: 'Roboto', sans-serif;
 }
 
@@ -20,7 +21,11 @@
 
 body {
     font-family: var(--font);
-    background: var(--grisFonce) url('../img/Fond.jpg') no-repeat center center fixed;
+    background-color: var(--grisFonce);
+    background-image: url('../img/Fond.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
     background-size: cover;
     color: var(--blanc);
 }
@@ -39,6 +44,7 @@ header {
     padding: 0 15px;
     background-color: var(--grisTrans);
     backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     border-radius: 0.7rem;
     box-shadow: var(--ombre);
     z-index: 1000;
@@ -99,7 +105,6 @@ nav.btn-Menu:hover svg {
     box-shadow: var(--ombreInset);
 }
 
-
 .mobile-menu {
     display: none;
     flex-direction: column;
@@ -111,6 +116,7 @@ nav.btn-Menu:hover svg {
     max-width: 700px;
     background-color: var(--grisTrans);
     backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     border-radius: 0.7rem;
     box-shadow: var(--ombre);
     padding: 10px;
@@ -123,12 +129,9 @@ nav.btn-Menu:hover svg {
     text-align: center;
 }
 
-
 .mobile-menu.active {
     display: flex;
 }
-
-
 
 .containerClassique {
     display: flex;
@@ -137,69 +140,81 @@ nav.btn-Menu:hover svg {
     max-width: 750px;
     background-color: var(--grisTrans);
     backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     border-radius: 0.7rem;
     box-shadow: var(--ombre);
     padding: 10px;
     margin: 0 auto;
     align-items: center;
     margin-bottom: 20px;
+    box-sizing: border-box;
 }
 
-.containerClassique img{
+.containerClassique img {
     width: 40%;
     filter: drop-shadow(var(--ombre));
+    -webkit-filter: drop-shadow(var(--ombre));
 }
 
-.containerClassique img.Portrait{
+.containerClassique img.Portrait {
     object-fit: contain;
     align-self: flex-end;
     margin-bottom: -10px;
 }
 
-h2{
+h2 {
     font-weight: 400;
     font-size: 1.5rem;
     font-family: 'Roboto';
     color: var(--blanc);
 }
 
-.text{
+.text {
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
-.citation{
+
+.citation {
     border-left: solid 3px var(--blanc);
     padding-left: 5px;
 }
 
-.text h1{
+.text h1 {
     font-size: 1.5rem;
     font-weight: 500;
     color: var(--blanc);
-    text-align: center;
-    text-shadow: var(--ombre);
     text-align: left;
+    text-shadow: var(--ombre);
     margin-bottom: 20px;
 }
 
-.text p{
+.text p {
     font-size: 1rem;
     line-height: 1.5;
     color: var(--blanc);
     text-align: justify;
     text-shadow: var(--ombre);
 }
+
+embed {
+    width: 80%;
+    display: block;
+    margin: 0 auto;
+    height: 1300px;
+}
+
+/* MEDIA QUERIES */
+
 @media screen and (max-width: 700px) {
-    .text p{
+    .text p {
         font-size: 0.7rem;
     }
-    .text h1{
+
+    .text h1 {
         font-size: 1rem;
     }
 }
-
-
 
 @media screen and (max-width: 600px) {
     .TitreLogo {
@@ -208,10 +223,11 @@ h2{
 }
 
 @media screen and (max-width: 530px) {
-    .text p{
+    .text p {
         font-size: 0.5rem;
     }
-    .text h1{
+
+    .text h1 {
         font-size: 0.7rem;
     }
 }
@@ -229,28 +245,30 @@ h2{
         display: flex;
     }
 
-    .containerClassique{
+    .containerClassique {
         flex-direction: column;
     }
 
-    .text p{
+    .text p {
         font-size: 0.7rem;
     }
-    .text h1{
+
+    .text h1 {
         font-size: 1rem;
     }
 
-    .containerClassique img{
+    .containerClassique img {
         width: 90%;
     }
 
-    .containerClassique img.Portrait{
+    .containerClassique img.Portrait {
         object-fit: contain;
         align-self: unset;
         margin-bottom: 10px;
         background-color: var(--grisFonce);
         border-radius: 0.5rem;
         filter: drop-shadow(var(--ombre2));
+        -webkit-filter: drop-shadow(var(--ombre2));
     }
 }
 
@@ -275,4 +293,10 @@ h2{
 
 .btn-Menu.open .close-icon {
     display: block;
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: var(--grisFonce);
+    }
 }
