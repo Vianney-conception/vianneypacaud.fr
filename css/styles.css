@@ -354,6 +354,11 @@ footer a.btn:hover {
 }
 
 @media screen and (max-width: 400px) {
+
+    embed{
+        height: auto;
+    }
+
     .TitreLogo {
         display: flex;
     }
@@ -389,8 +394,8 @@ footer a.btn:hover {
         margin-bottom: 10px;
         background-color: var(--grisFonce);
         border-radius: 0.5rem;
-        filter: drop-shadow(var(--ombre2));
-        -webkit-filter: drop-shadow(var(--ombre2));
+        filter: unset;
+        -webkit-filter: unset;
     }
 
     .langages img,
