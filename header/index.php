@@ -25,6 +25,8 @@
   <a class="btn" href="/Services/">Services</a>
   <a class="btn" href="/Contact/">Contact</a>
 </div>
+
+<div style="height: 100px;"></div>
 <script>
   const menuBtn = document.getElementById('menuToggle');
   const mobileMenu = document.getElementById('mobileMenu');

@@ -9,13 +9,5 @@
 </head>
 <body>
     <?php include '../header/index.php'; ?>
-
-    <div class="containerClassique">
-        <img src="../img/Vianney_PacaudT.webp" alt="">
-        <div class="text">
-
-        </div>
-
-    </div>
 </body>
 </html>
