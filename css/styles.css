@@ -66,8 +66,18 @@ nav.btn-container {
   gap: 10px;
 }
 
-nav.btn-Menu{
-    display: none;
+nav.btn-Menu {
+  display: none;
+  cursor: pointer;
+}
+
+nav.btn-Menu svg {
+  fill: var(--blanc);
+  transition: transform 0.3s;
+}
+
+nav.btn-Menu:hover svg {
+  transform: scale(1.1);
 }
 
 .btn {
@@ -87,7 +97,36 @@ nav.btn-Menu{
   box-shadow: var(--ombreInset);
 }
 
+/* MENU MOBILE DÉROULANT */
+.mobile-menu {
+  display: none;
+  flex-direction: column;
+  position: fixed;
+  top: 85px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 700px;
+  background-color: var(--grisTrans);
+  backdrop-filter: blur(6px);
+  border-radius: 0.7rem;
+  box-shadow: var(--ombre);
+  padding: 10px;
+  gap: 10px;
+  z-index: 999;
+}
 
+.mobile-menu a {
+  width: 100%;
+  text-align: center;
+}
+
+/* Quand activé (via JS) */
+.mobile-menu.active {
+  display: flex;
+}
+
+/* Responsive */
 @media screen and (max-width: 600px) {
   .TitreLogo {
     display: none;
@@ -95,26 +134,21 @@ nav.btn-Menu{
 }
 
 @media screen and (max-width: 400px) {
-    .TitreLogo {
-      display: flex;
-    }
-
-    nav.btn-container {
-      display: none;
-    }
-
-    nav.btn-Menu{
-        display: flex;
-        cursor: pointer;
-    }
-
-    nav.btn-Menu:hover path{
-        box-shadow: var(--ombre);
-    }
+  .TitreLogo {
+    display: flex;
   }
 
-  @media screen and (max-width: 300px) {
-    .TitreLogo {
-        display: none;
-      }
+  nav.btn-container {
+    display: none;
+  }
+
+  nav.btn-Menu {
+    display: flex;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  .TitreLogo {
+    display: none;
+  }
 }
