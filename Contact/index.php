@@ -9,6 +9,17 @@
 </head>
 <body>
     <?php include '../header/index.php'; ?>
+
+   
+    <div style="justify-content: space-between;" class="containerClassique">
+        <div>
+       <h1>Contact</h1>
+       <p>E-mail : "contact@vianneypacaud.fr"</p>
+       </div>
+    </div>
+
+
+    <?php include '../footer/index.php'; ?>
 </body>
 <script src="/Scripts/MoteurRendu.js"></script>
 </html>

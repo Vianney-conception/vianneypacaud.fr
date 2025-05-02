@@ -20,7 +20,7 @@
     box-sizing: border-box;
 }
 
-body {
+body{
     font-family: var(--font);
     background-color: var(--grisFonce);
     background-image: url('../img/Fond.jpg');
@@ -30,6 +30,8 @@ body {
     background-size: cover;
     color: var(--blanc);
 }
+
+
 
 header {
     display: flex;
@@ -163,6 +165,10 @@ nav.btn-Menu:hover svg {
     width: 190%;
 }
 
+.Gecko .containerClassique img.horloge {
+    width: 40%;
+}
+
 .containerClassique img.Portrait {
     object-fit: contain;
     align-self: flex-end;
@@ -229,6 +235,7 @@ embed {
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     text-align: left;
     line-height: 1.5;
+    flex-direction: column;
 }
 
 .Langue {
@@ -250,6 +257,51 @@ embed {
     color: var(--blanc);
     font-family: 'Roboto';
 }
+
+footer {
+    position: relative;
+    bottom: 20px;
+    width: 90%;
+    max-width: 700px;
+    margin: 40px auto 20px auto;
+    padding: 20px;
+    background-color: var(--grisTrans);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 0.7rem;
+    box-shadow: var(--ombre);
+    text-align: center;
+    color: var(--blanc);
+    font-family: var(--font);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+footer p {
+    font-size: 0.9rem;
+    color: var(--grisClair);
+    text-shadow: var(--ombre);
+}
+
+footer a.btn {
+    align-self: center;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    padding: 6px 12px;
+    border-radius: 0.5rem;
+    background-color: transparent;
+    color: var(--blanc);
+    text-decoration: none;
+    box-shadow: var(--ombreBtn);
+    transition: all 0.3s ease;
+}
+
+footer a.btn:hover {
+    color: var(--grisClair);
+    box-shadow: var(--ombreInset);
+}
+
 
 @media screen and (max-width: 700px) {
     .text p {

@@ -47,86 +47,10 @@
             </div>
         </div>
     </div>
+    <?php include '../footer/index.php'; ?>
 
 </body>
 <script src="/Scripts/MoteurRendu.js"></script>
-<script>
-
-document.querySelectorAll('.Langue').forEach(langue => {
-    langue.addEventListener('mouseover', (event) => {
-        const descriptions = {
-            html: {
-                text: "HTML est utilisé pour structurer le contenu des pages web.",
-                img: "images/htmlilustre.gif"
-            },
-            CSS: {
-                text: "CSS est utilisé pour styliser et mettre en page les sites web.",
-                img: "images/cssilustre.gif"
-            },
-            PHP: {
-                text: "PHP est un langage serveur pour créer des sites dynamiques.",
-                img: "images/phpilustre.gif"
-            },
-            JS: {
-                text: "JavaScript permet d'ajouter des interactions aux pages web.",
-                img: "images/jsilustre.gif"
-            },
-            Python: {
-                text: "Python est polyvalent, utilisé pour le web, la data et plus.",
-                img: "images/pythonilustre.gif"
-            },
-            C: {
-                text: "C++ est utilisé pour les logiciels performants et pour la programmation de microcontrôleurs, je l'utilise pour fabriquer des petites machines.",
-                img: "images/cppilustre.gif"
-            }
-        };
-
-        const id = langue.querySelector('img').id;
-        const data = descriptions[id] || { text: "Description non disponible.", img: "" };
-
-        const tooltip = document.createElement('div');
-        tooltip.className = 'containerClassique tooltip';
-        tooltip.style.position = 'absolute';
-        tooltip.style.width = '220px';
-        tooltip.style.backgroundColor = '#333';
-        tooltip.style.color = '#fff';
-        tooltip.style.padding = '10px';
-        tooltip.style.borderRadius = '5px';
-        tooltip.style.fontSize = '12px';
-        tooltip.style.pointerEvents = 'none';
-        tooltip.style.top = `${event.pageY + 10}px`;
-        tooltip.style.left = `${event.pageX + 10}px`;
-        tooltip.style.textAlign = 'center';
-
-        if (data.img) {
-            const image = document.createElement('img');
-            image.src = data.img;
-            image.alt = id;
-            image.style.width = '40px';
-            image.style.height = '40px';
-            image.style.display = 'block';
-            image.style.margin = '0 auto 8px auto';
-            tooltip.appendChild(image);
-        }
-
-        const texte = document.createElement('div');
-        texte.textContent = data.text;
-        tooltip.appendChild(texte);
-
-        document.body.appendChild(tooltip);
-
-        langue.addEventListener('mousemove', (e) => {
-            tooltip.style.top = `${e.pageY + 10}px`;
-            tooltip.style.left = `${e.pageX + 10}px`;
-        });
-
-        langue.addEventListener('mouseout', () => {
-            tooltip.remove();
-        });
-    });
-});
-
-
-</script>
+<script src="/Scripts/Langages.js"></script>
 
 </html>
