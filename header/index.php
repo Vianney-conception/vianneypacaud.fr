@@ -1,13 +1,13 @@
 <header>
   <div class="logo-container">
-    <a href="/Acceuil/">
+    <a href="/Accueil/">
       <img class="img-btn" src="../img/LogoN&B.svg" alt="Logo Vianney Pacaud">
     </a>
     <p class="TitreLogo">Vianney Pacaud</p>
   </div>
   <nav class="btn-container">
-    <a class="btn pageActuel" href="/Acceuil/">Accueil</a>
-    <a class="btn" href="/Service/">Services</a>
+    <a class="btn" href="/Accueil/">Accueil</a>
+    <a class="btn" href="/Services/">Services</a>
     <a class="btn" href="/Contact/">Contact</a>
   </nav>
   <nav class="btn-Menu" id="menuToggle">
@@ -21,15 +21,27 @@
 </nav>
 </header>
 <div class="mobile-menu" id="mobileMenu">
-  <a class="btn" href="/Acceuil/">Accueil</a>
-  <a class="btn" href="/Service/">Services</a>
+  <a class="btn" href="/Accueil/">Accueil</a>
+  <a class="btn" href="/Services/">Services</a>
   <a class="btn" href="/Contact/">Contact</a>
 </div>
 <script>
-  const menuBtn = document.querySelector('.btn-Menu');
+  const menuBtn = document.getElementById('menuToggle');
   const mobileMenu = document.getElementById('mobileMenu');
 
   menuBtn.addEventListener('click', () => {
     mobileMenu.classList.toggle('active');
+    menuBtn.classList.toggle('open'); 
   });
+
+const currentPath = window.location.pathname.split('/')[1].toLowerCase();
+const links = document.querySelectorAll('.btn-container .btn, .mobile-menu .btn');
+
+links.forEach(link => {
+    const linkText = link.textContent.trim().toLowerCase();
+    if (linkText === currentPath) {
+        link.classList.add('pageActuel');
+    }
+});
 </script>
+
