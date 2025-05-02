@@ -31,7 +31,17 @@
     </div>
 
 
+    <div class="containerClassique">
+        <img class="Portrait" src="../img/Vianney_PacaudT.webp" alt="">
+        <div class="text">
+            <div class="citation">
+                <h1>Bonjour,</h1>
+                <p>Je m'appelle Vianney, étant passionné par l'informatique et tout particulièrement par le développement web, je propose de vous accompagner tout au long de votre projet. Ne vous inquiétez plus, je m'occupe de tout ! De votre site Web aux services de messagerie, vous pouvez compter sur moi </p>
+            </div>
+        </div>
+    </div>
+    </div>
 
 </body>
-
+<script src="/Scripts/MoteurRendu.js"></script>
 </html>

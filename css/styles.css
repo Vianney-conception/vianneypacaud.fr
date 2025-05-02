@@ -150,10 +150,16 @@ nav.btn-Menu:hover svg {
     box-sizing: border-box;
 }
 
+
+
 .containerClassique img {
     width: 40%;
     filter: drop-shadow(var(--ombre));
     -webkit-filter: drop-shadow(var(--ombre));
+}
+
+.Gecko .containerClassique img {
+    width: 190%;
 }
 
 .containerClassique img.Portrait {
@@ -257,7 +263,7 @@ embed {
         font-size: 1rem;
     }
 
-    .containerClassique img {
+    .containerClassique img,.Gecko .containerClassique img {
         width: 90%;
     }
 

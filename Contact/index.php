@@ -10,5 +10,5 @@
 <body>
     <?php include '../header/index.php'; ?>
 </body>
-
+<script src="/Scripts/MoteurRendu.js"></script>
 </html>
