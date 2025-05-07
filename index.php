@@ -1,4 +1,4 @@
 <?php
-header("Location: https://vianneypacaud.fr/Accueil/");
+header("Location: /Accueil/");
 exit;
 ?>
