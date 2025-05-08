@@ -230,6 +230,7 @@ embed {
     transition: all 0.3s ease;
 }
 
+
 .containerClassique.tooltip {
     z-index: 1000;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -303,6 +304,10 @@ footer a.btn:hover {
 }
 
 
+.containerClassique .ImgErreur{
+    width: 200px;
+}
+
 @media screen and (max-width: 700px) {
     .text p {
         font-size: 0.7rem;
@@ -319,6 +324,11 @@ footer a.btn:hover {
 }
 
 @media screen and (max-width: 600px) {
+
+    .containerClassique .ImgErreur{
+        width: 100px;
+    }
+
     .TitreLogo {
         display: none;
     }

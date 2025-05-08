@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vianney Pacaud - Acceuil</title>
+    <title>Vianney Pacaud - CV</title>
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="icon" href="../img/Logo_N&B.png" type="image/x-icon">
 </head>
