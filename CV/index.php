@@ -10,7 +10,7 @@
 <body>
     <?php include '../header/index.php'; ?>
 
-    <embed src="../doc/Vianney_PACAUD_Mai2025.pdf" type="application/pdf" width="100%" height="600px" />
+    <embed src="../doc/Vianney_PACAUD_CV_Mai2025.pdf" type="application/pdf" width="100%" height="600px" />
 
 </body>
 <script src="/Scripts/MoteurRendu.js"></script>
