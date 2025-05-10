@@ -47,12 +47,14 @@ body.Claire .text h1,
 body.Claire .TitreLogo,
 body.Claire h2,
 body.Claire h1,
-body .Langue p,
+body.Claire .Langue p,
 body.Claire footer p{
-    color: var(--bleuModeClaire);
-    text-shadow: unset;
    color: var(--bleuModeClaire);
    text-shadow: unset;
+}
+
+p{
+    color: var(--blanc);
 }
 
 body.Claire .citation{
