@@ -26,6 +26,7 @@
   <a class="btn" href="/Contact/">Contact</a>
 </div>
 
+
 <div style="height: 100px;"></div>
 <script>
   const menuBtn = document.getElementById('menuToggle');
