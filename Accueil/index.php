@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vianney Pacaud - Accueil</title>
     <link rel="stylesheet" href="../css/styles.css">
-    <link rel="icon" href="../img/Logo_N&B.png" type="image/x-icon">
+    <?php include '../facivon/index.php'; ?>
 </head>
 
-<body>
+<body class="Claire">
     <?php include '../header/index.php'; ?>
 
     <div class="containerClassique">
@@ -26,7 +26,7 @@
     <div style="justify-content: space-between;" class="containerClassique">
         <h2>CV :</h2>
         <a class="btn" href="/CV/" target="_blank">
-            <svg style="margin-right: 5px;" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF">
+            <svg style="margin-right: 5px;" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
                 <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z" />
             </svg> Voir le CV</a>
 
@@ -52,5 +52,6 @@
 </body>
 <script src="/Scripts/MoteurRendu.js"></script>
 <script src="/Scripts/Langages.js"></script>
+<script src="/Scripts/cookie.js"></script>
 
 </html>

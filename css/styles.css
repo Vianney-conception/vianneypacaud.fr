@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
 
 :root {
+
+    --fondModeClaire:#d4dae3b0;
+    --bleuModeClaire: #002060;
+    --vertModeClaire: #007211;
     --bleuFonce: #080038;
     --grisFonce: #2c2c2d;
     --grisClair: #b1b1b3;
@@ -31,7 +35,37 @@ body{
     color: var(--blanc);
 }
 
+body.Claire header,
+body.Claire .containerClassique{
+    background-color: var(--fondModeClaire);
+    color: var(--bleuModeClaire);
+    text-shadow: unset;
+} 
 
+body.Claire .text p,
+body.Claire .text h1,
+body.Claire .TitreLogo,
+body.Claire h2,
+body.Claire h1,
+body .Langue p,
+body.Claire footer p{
+    color: var(--bleuModeClaire);
+    text-shadow: unset;
+   color: var(--bleuModeClaire);
+   text-shadow: unset;
+}
+
+body.Claire .citation{
+    border-left: solid 3px var(--vertModeClaire);
+}
+
+body.Claire .btn{
+    color: var(--bleuModeClaire);
+}
+
+body.Claire a svg{
+    fill: var(--bleuModeClaire);
+}
 
 header {
     display: flex;
@@ -308,6 +342,17 @@ footer a.btn:hover {
     width: 200px;
 }
 
+footer.containerClassique{
+    flex-direction: column;
+    margin-top: 50px; 
+    align-items: flex-start;
+}
+
+a svg{
+    fill: var(--blanc);
+    transition: transform 0.3s;
+}
+
 @media screen and (max-width: 700px) {
     .text p {
         font-size: 0.7rem;
@@ -442,13 +487,3 @@ footer a.btn:hover {
     display: block;
 }
 
-
-
-
-
-@media (prefers-color-scheme: dark) {
-    body {
-        background-color: var(--grisFonce);
-    }
-
-}

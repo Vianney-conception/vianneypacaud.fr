@@ -45,5 +45,14 @@ links.forEach(link => {
         link.classList.add('pageActuel');
     }
 });
+
+const darkModeCookie = document.cookie.split('; ').find(row => row.startsWith('modeSombre='));
+if (darkModeCookie && darkModeCookie.split('=')[1] === 'false') {
+  const logoImg = document.querySelector('.logo-container .img-btn');
+  if (logoImg) {
+    logoImg.src = '../img/LogoCouleur.svg';
+    logoImg.alt = 'Logo Vianney Pacaud Couleur';
+  }
+}
 </script>
 

@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vianney Pacaud - Services</title>
     <link rel="stylesheet" href="../css/styles.css">
-    <link rel="icon" href="../img/Logo_N&B.png" type="image/x-icon">
+    <?php include '../facivon/index.php'; ?>
 </head>
-<body>
+<body class="Claire">
     <?php include '../header/index.php'; ?>
 
     <div class="containerClassique">
@@ -22,4 +22,5 @@
     <?php include '../footer/index.php'; ?>
 </body>
 <script src="/Scripts/MoteurRendu.js"></script>
+<script src="/Scripts/cookie.js"></script>
 </html>
