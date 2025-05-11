@@ -20,6 +20,9 @@
   </svg>
 </nav>
 </header>
+
+<div class="btn-ModeSombre"></div>
+
 <div class="mobile-menu" id="mobileMenu">
   <a class="btn" href="/Accueil/">Accueil</a>
   <a class="btn" href="/Services/">Services</a>

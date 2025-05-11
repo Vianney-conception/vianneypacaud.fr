@@ -36,7 +36,8 @@ body{
 }
 
 body.Claire header,
-body.Claire .containerClassique{
+body.Claire .containerClassique,
+body.Claire .mobile-menu{
     background-color: var(--fondModeClaire);
     color: var(--bleuModeClaire);
     text-shadow: unset;
@@ -89,6 +90,15 @@ header {
     z-index: 1000;
 }
 
+.btn-ModeSombre{
+    background-color: var(--grisTrans);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 0.7rem;
+    box-shadow: var(--ombre);
+    z-index: 15;
+    width: 100px;
+}
 
 .logo-container {
     display: flex;
