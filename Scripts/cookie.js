@@ -1,64 +1,61 @@
-const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-document.cookie = `modeSombre=${isDarkMode}; path=/; max-age=3600`; 
-
-
-function changemodeClair(){
-    const cookies = document.cookie.split('; ').reduce((acc, cookie) => {
+function getCookies() {
+    return document.cookie.split('; ').reduce((acc, cookie) => {
         const [key, value] = cookie.split('=');
         acc[key] = value;
         return acc;
     }, {});
-  if (cookies.modeSombre === 'true') {
-        document.body.classList.add('Claire');
-        document.cookie = `modeSombre=false; path=/; max-age=3600`;
-        document.cookie = `ChoixMode=claire; path=/; max-age=3600`;
-}
 }
 
-function changemodeSombre(){
-    const cookies = document.cookie.split('; ').reduce((acc, cookie) => {
-        const [key, value] = cookie.split('=');
-        acc[key] = value;
-        return acc;
-    }, {});
-  if (cookies.modeSombre === 'false') {
-        document.body.classList.remove('Claire');
-        document.cookie = `modeSombre=true; path=/; max-age=3600`;
-        document.cookie = `ChoixMode=sombre; path=/; max-age=3600`;
-}
+function setCookie(key, value, maxAge = 3600) {
+    document.cookie = `${key}=${value}; path=/; max-age=${maxAge}`;
 }
 
-function changemodeAuto(){
-    const cookies = document.cookie.split('; ').reduce((acc, cookie) => {
-        const [key, value] = cookie.split('=');
-        acc[key] = value;
-        return acc;
-    }, {});
-    document.cookie = `ChoixMode=auto; path=/; max-age=3600`;
-    const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    document.cookie = `modeSombre=${isDarkMode}; path=/; max-age=3600`; 
-    if (isDarkMode === 'true') {
-            document.body.classList.remove('Claire');
-        } else {
-            document.body.classList.add('Claire');
+function updateButtonSelection(mode) {
+    const modes = ['Claire', 'Auto', 'Sombre'];
+    modes.forEach(m => {
+        const btn = document.getElementById(`btn-Mode${m}`);
+        if (btn) {
+            btn.classList.toggle('modeChoisie', m.toLowerCase() === mode);
         }
+    });
 }
 
-setInterval(() => {
-    const cookies = document.cookie.split('; ').reduce((acc, cookie) => {
-        const [key, value] = cookie.split('=');
-        acc[key] = value;
-        return acc;
-    }, {});
-    if (cookies.ChoixMode === 'auto'){
-        if (cookies.modeSombre === 'true') {
-            document.body.classList.remove('Claire');
-        } else {
-            document.body.classList.add('sombre');
-        }
-    }else if(cookies.ChoixMode === 'sombre'){
-        changemodeSombre();
+function applyTheme(mode) {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const body = document.body;
+
+    if (mode === 'auto') {
+        setCookie('modeSombre', isDarkMode);
+        body.classList.toggle('Claire', !isDarkMode);
+    } else if (mode === 'sombre') {
+        body.classList.remove('Claire');
+        setCookie('modeSombre', true);
+    } else { // claire
+        body.classList.add('Claire');
+        setCookie('modeSombre', false);
     }
-}, 100);
+}
 
+function changeMode(mode) {
+    setCookie('ChoixMode', mode);
+    updateButtonSelection(mode);
+    applyTheme(mode);
+}
 
+document.getElementById('btn-ModeClaire')?.addEventListener('click', () => changeMode('claire'));
+document.getElementById('btn-ModeSombre')?.addEventListener('click', () => changeMode('sombre'));
+document.getElementById('btn-ModeAuto')?.addEventListener('click', () => changeMode('auto'));
+
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    const cookies = getCookies();
+    if (cookies.ChoixMode === 'auto') {
+        applyTheme('auto');
+    }
+});
+
+(() => {
+    const cookies = getCookies();
+    const mode = cookies.ChoixMode || 'auto';
+    updateButtonSelection(mode);
+    applyTheme(mode);
+})();

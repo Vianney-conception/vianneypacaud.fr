@@ -14,6 +14,7 @@
     --ombreBtn: 3px 3px 6px rgba(0, 0, 0, 0.27);
     --ombreInset: inset -1px -2px 6px rgba(0, 0, 0, 0.11);
     --ombre2: 4px 7px 12px rgba(0, 0, 0, 0.65);
+    --ombrebtnModal: 0px 0px 4px 2px rgb(0, 0, 0, 0.25);
     --Lumiere: 0px 0px 10px rgba(255, 255, 255, 0.5);
     --font: 'Roboto', sans-serif;
 }
@@ -60,6 +61,40 @@ body.Claire .btn-mode{
     transition: all 0.5s;
 }
 
+body.Claire .btn-mode{
+    background-color: var(--fondModeClaire);
+    color: var(--bleuModeClaire);
+    fill: var(--bleuModeClaire);
+    transition: all 0.5s;
+}
+
+.btn-mode {
+    background-color: var(--grisTrans);
+    color: var(--blanc);
+    fill: var(--blanc);
+    box-shadow: var(--ombrebtnModal);
+}
+.btn-mode:hover,
+.btn-mode.modeChoisie {
+    box-shadow: var(--ombreInset);
+}
+
+body.Claire .btn-mode:hover,
+body.Claire .btn-mode.modeChoisie {
+    fill: var(--bleuFonce);
+}
+
+.btn-mode {
+   display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-mode svg{
+    width: 15px;
+}
+
+
 
 p{
     color: var(--blanc);
@@ -97,26 +132,59 @@ header {
     z-index: 1000;
 }
 
-.btn-ModeSombre{
+@keyframes disappearToCenter {
+    0% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) scale(0);
+    }
+}
+
+@keyframes deployFromCenter {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) scale(0);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+    }
+}
+
+.btn-ModeSombre {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     flex-direction: row;
-    position: relative;
+    position: fixed;
     top: 110px;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) scale(0);
     background-color: var(--grisTrans);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
-    border-radius: 0.7rem;
+    border-radius: 20rem;
     box-shadow: var(--ombre);
     z-index: 15;
     width: 120px;
     height: 30px;
     cursor: pointer;
-    justify-content: space-around;
-    border-radius: 20rem;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.btn-ModeSombre.on {
+    animation: deployFromCenter 0.5s cubic-bezier(0.4,0,0.2,1) forwards;
+    pointer-events: auto;
+}
+
+
+.btn-ModeSombre.off {
+    animation: disappearToCenter 0.5s cubic-bezier(0.4,0,0.2,1) forwards;
+    pointer-events: none;
 }
 
 .btn-mode{
