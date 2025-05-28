@@ -59,3 +59,16 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () 
     updateButtonSelection(mode);
     applyTheme(mode);
 })();
+
+window.addEventListener('scroll', function() {
+    const btn = document.querySelector('.btn-ModeSombre');
+    if (!btn) return;
+
+    if (window.scrollY > 100) {
+        btn.classList.remove('on');
+        btn.classList.add('off');
+    } else{
+        btn.classList.remove('off');
+        btn.classList.add('on');
+    }
+});

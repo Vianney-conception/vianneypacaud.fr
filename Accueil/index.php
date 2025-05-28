@@ -53,6 +53,6 @@
 <script src="/Scripts/MoteurRendu.js"></script>
 <script src="/Scripts/Langages.js"></script>
 <script src="/Scripts/cookie.js"></script>
-<script scr="/Scripts/scroll.js"></script>
+
 
 </html>
