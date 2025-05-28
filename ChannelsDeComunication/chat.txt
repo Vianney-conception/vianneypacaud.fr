@@ -1,0 +1,30 @@
+{"user":"Visiteur590","text":"Bon \u00e7a fonctionne ?","time":"19:43"}
+{"user":"Visiteur455","text":"Depuis mon t\u00e9l\u00e9phone...","time":"19:49"}
+{"user":"Visiteur334","text":"Bon oui mais le responsive est \u00e0 revoir","time":"20:13"}
+{"user":"Visiteur334","text":"Philbert","time":"20:13"}
+{"user":"Visiteur590","text":"Oui ce canal est fait exclusivement pour ordinateur","time":"20:37"}
+{"user":"Visiteur997","text":"Daccor","time":"20:40"}
+{"user":"Visiteur590","text":"quoi c'est styl\u00e9 non?","time":"20:41"}
+{"user":"Visiteur997","text":"Oui","time":"20:41"}
+{"user":"Visiteur590","text":"A ba voil\u00e0","time":"20:41"}
+{"user":"Visiteur590","text":"en fin quelqu'un qui reconnait mon GENIE !","time":"20:41"}
+{"user":"Visiteur997","text":"Abus\u00e9 pas non plus","time":"20:41"}
+{"user":"Visiteur590","text":"On peut m\u00eame maitre des \ud83d\ude0a","time":"20:42"}
+{"user":"Visiteur997","text":"\ud83e\uddd0","time":"20:42"}
+{"user":"Visiteur590","text":"ou des \ud83e\udd76et m\u00eame des \ud83d\ude21","time":"20:42"}
+{"user":"Visiteur590","text":"Bon comment j'acc\u00e9de \u00e0 ton blogue sur les papes ?","time":"20:43"}
+{"user":"Visiteur997","text":"Le quel","time":"20:43"}
+{"user":"Visiteur590","text":"\ud83d\ude02","time":"20:43"}
+{"user":"Visiteur590","text":"celui sur lequels tu travaillais en maths","time":"20:44"}
+{"user":"Visiteur590","text":"en ES pardon","time":"20:44"}
+{"user":"Visiteur997","text":"\u00c7a marche bien tes modes clair sombre et auto","time":"20:44"}
+{"user":"Visiteur590","text":"tu as vus \u00e7a et quand on scroll sa disparet et c'est jolie","time":"20:44"}
+{"user":"Visiteur997","text":"C est crypt\u00e9 ou pas cette messagerie","time":"20:45"}
+{"user":"Visiteur590","text":"Bien sur tu peux parler \u00e0 coeur ouvert","time":"20:45"}
+{"user":"Visiteur590","text":"\ud83d\ude01","time":"20:45"}
+{"user":"Visiteur997-|Admin|","text":"Effacer par l'admin Vianney","time":"20:46"}
+{"user":"Visiteur590","text":"A comme d'habitude...","time":"20:46"}
+{"user":"Visiteur997","text":"Ok.","time":"20:46"}
+{"user":"Visiteur997","text":"Je te laisse j arrive en guarre","time":"20:46"}
+{"user":"Visiteur559","text":"Bonjour","time":"19:28"}
+{"user":"Visiteur559","text":"salut","time":"19:28"}

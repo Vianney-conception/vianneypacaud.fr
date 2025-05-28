@@ -632,7 +632,6 @@ body.Claire .chat-container {
     margin-bottom: 15px;
     padding: 10px;
     font-family: var(--font);
-    /* Mode sombre par défaut */
     background: var(--grisFonce);
     color: var(--blanc);
 }

@@ -20,18 +20,49 @@
     </div>
 
     <script>
+        let lastMessageId = null;
+
+        
+        if ("Notification" in window && Notification.permission !== "granted") {
+            Notification.requestPermission();
+        }
+
         function fetchMessages() {
             fetch('chat_handler.php?action=get')
                 .then(response => response.json())
                 .then(data => {
                     const chat = document.getElementById('chat-messages');
                     chat.innerHTML = '';
-                    data.forEach(msg => {
+                    let lastMsg = null;
+                    data.forEach((msg, idx) => {
                         const div = document.createElement('div');
                         div.textContent = `[${msg.time}] ${msg.user}: ${msg.text}`;
                         chat.appendChild(div);
+                        lastMsg = msg;
+                        msg._id = msg.time + '|' + msg.user + '|' + msg.text;
                     });
                     chat.scrollTop = chat.scrollHeight;
+
+                    
+                    if (
+                        lastMsg &&
+                        document.hidden &&
+                        "Notification" in window &&
+                        Notification.permission === "granted"
+                    ) {
+                        if (lastMsg._id !== lastMessageId) {
+                            lastMessageId = lastMsg._id;
+                            let notif = new Notification("Nouveau message", {
+                                body: lastMsg.user + " : " + lastMsg.text,
+                                tag: "chat-message",
+                                renotify: true
+                            });
+                            notif.onclick = function() {
+                                window.focus();
+                                notif.close();
+                            };
+                        }
+                    }
                 });
         }
 
