@@ -21,7 +21,6 @@
 </nav>
 </header>
 
-<div class="btn-ModeSombre"></div>
 
 <div class="mobile-menu" id="mobileMenu">
   <a class="btn" href="/Accueil/">Accueil</a>
@@ -30,7 +29,16 @@
 </div>
 
 
-<div style="height: 100px;"></div>
+<div class="btn-ModeSombre">
+  <div class="btn-mode" onclick="changemodeClair()" id="btn-ModeClaire"></div>
+  <div class="btn-mode" onclick="changemodeSombre()" id="btn-ModeSombre"></div>
+  <div class="btn-mode" onclick="changemodeAuto()" id="btn-ModeAuto"></div>
+</div>
+
+
+<div style="height: 150px;"></div>
+
+
 <script>
   const menuBtn = document.getElementById('menuToggle');
   const mobileMenu = document.getElementById('mobileMenu');

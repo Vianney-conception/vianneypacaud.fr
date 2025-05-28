@@ -54,6 +54,13 @@ body.Claire footer p{
    text-shadow: unset;
 }
 
+body.Claire .btn-ModeSombre, 
+body.Claire .btn-mode{
+    background-color: var(--fondModeClaire);
+    transition: all 0.5s;
+}
+
+
 p{
     color: var(--blanc);
 }
@@ -91,13 +98,45 @@ header {
 }
 
 .btn-ModeSombre{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    position: relative;
+    top: 110px;
+    left: 50%;
+    transform: translateX(-50%);
     background-color: var(--grisTrans);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     border-radius: 0.7rem;
     box-shadow: var(--ombre);
     z-index: 15;
-    width: 100px;
+    width: 120px;
+    height: 30px;
+    cursor: pointer;
+    justify-content: space-around;
+    border-radius: 20rem;
+}
+
+.btn-mode{
+    background-color: var(--grisTrans);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    width: 30px;
+    height: 20px;
+}
+
+#btn-ModeClaire{
+   border-radius: 0.7rem 0 0 0.7rem;
+}
+
+#btn-ModeSombre{
+    border-radius: 0;
+}
+
+#btn-ModeAuto{
+    border-radius: 0rem 0.7rem 0.7rem 0rem;
 }
 
 .logo-container {
