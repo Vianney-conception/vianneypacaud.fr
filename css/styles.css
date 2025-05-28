@@ -607,3 +607,86 @@ a svg{
     display: block;
 }
 
+.chat-container {
+    max-width: 500px;
+    margin: 40px auto;
+    border-radius: 0.7rem;
+    box-shadow: var(--ombre);
+    padding: 20px;
+    font-family: var(--font);
+    /* Mode sombre par défaut */
+    background: var(--grisTrans);
+    color: var(--blanc);
+}
+
+body.Claire .chat-container {
+    background: var(--fondModeClaire);
+    color: var(--bleuModeClaire);
+}
+
+.chat-messages {
+    height: 300px;
+    overflow-y: auto;
+    border: 1px solid var(--grisClair);
+    border-radius: 0.5rem;
+    margin-bottom: 15px;
+    padding: 10px;
+    font-family: var(--font);
+    /* Mode sombre par défaut */
+    background: var(--grisFonce);
+    color: var(--blanc);
+}
+
+body.Claire .chat-messages {
+    background: var(--blanc);
+    color: var(--bleuFonce);
+}
+
+.chat-input {
+    display: flex;
+    gap: 10px;
+}
+
+.chat-input input[type="text"] {
+    flex: 1;
+    padding: 8px;
+    border-radius: 0.5rem;
+    border: 1px solid var(--grisClair);
+    font-family: var(--font);
+    /* Mode sombre par défaut */
+    background: var(--grisFonce);
+    color: var(--blanc);
+}
+
+body.Claire .chat-input input[type="text"] {
+    background: var(--blanc);
+    color: var(--bleuFonce);
+}
+
+.chat-input button {
+    padding: 8px 16px;
+    border-radius: 0.5rem;
+    border: none;
+    background: var(--bleuModeClaire);
+    color: var(--blanc);
+    cursor: pointer;
+    font-family: var(--font);
+    box-shadow: var(--ombreBtn);
+    transition: background 0.2s;
+}
+
+.chat-input button:hover {
+    background: var(--vertModeClaire);
+}
+
+.chat-container h2 {
+    font-family: var(--font);
+    margin-bottom: 10px;
+    /* Mode sombre par défaut */
+    color: var(--blanc);
+}
+
+body.Claire .chat-container h2 {
+    color: var(--bleuModeClaire);
+}
+
