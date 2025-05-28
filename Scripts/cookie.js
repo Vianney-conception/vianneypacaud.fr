@@ -34,14 +34,13 @@ function changemodeAuto(){
         acc[key] = value;
         return acc;
     }, {});
-    document.body.classList.remove('Claire');
     document.cookie = `ChoixMode=auto; path=/; max-age=3600`;
     const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
     document.cookie = `modeSombre=${isDarkMode}; path=/; max-age=3600`; 
-    if (cookies.modeSombre === 'true') {
+    if (isDarkMode === 'true') {
             document.body.classList.remove('Claire');
         } else {
-            document.body.classList.add('sombre');
+            document.body.classList.add('Claire');
         }
 }
 
