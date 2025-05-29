@@ -1,0 +1,125 @@
+  @font-face {
+    font-family: 'Montserrat';
+    src: url('/itnCom/Polices/Montserrat/Montserrat-VariableFont_wght.ttf') format('truetype');
+  }
+
+  * {
+    --violet: #3B1351;
+    --Orange: #E46A26;
+    font-family: 'Montserrat';
+
+  }
+
+  .container-login {
+    padding: 20px;
+    text-align: center;
+    width: 300px;
+  }
+
+  .logo {
+    width: 100px;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    margin-bottom: 20px;
+    color: var(--violet);
+  }
+
+
+  .form-group {
+    margin-bottom: 15px;
+    text-align: left;
+  }
+
+  input::placeholder {
+    color: var(--violet);
+    font-size: 0.8rem;
+  }
+
+  input[type="email"],
+  input[type="text"],
+  input[type="password"] {
+    background-color: unset;
+    outline: none;
+    width: 100%;
+    padding: 8px;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    border-bottom: 3px solid var(--violet);
+    box-sizing: border-box;
+    font-size: 1rem;
+    transition: all 0.5s;
+    color: var(--violet);
+  }
+
+  input[type="email"]:focus,
+  input[type="text"]:focus,
+  input[type="password"]:focus,
+  input[type="email"]:hover,
+  input[type="password"]:hover {
+    background-color: var(--violet);
+    color: var(--Orange);
+  }
+
+  input:focus::placeholder,
+  input:hover::placeholder {
+    color: var(--Orange);
+    font-size: 0.8rem;
+  }
+
+  .password-container {
+    position: relative;
+  }
+
+  .password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    width: 20px;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--Orange);
+    border: none;
+    border: var(--violet) solid 3px;
+    color: var(--violet);
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: all 0.5s;
+  }
+
+  .info {
+    position: fixed;
+    width: 100%;
+    max-width: 200px;
+    z-index: 20;
+    border: solid 3px var(--violet);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--Orange);
+  }
+
+  .info p {
+    font-size: 1rem;
+    color: var(--violet);
+    margin-block-start: 5px;
+    margin-block-end: 5px;
+  }
+
+  .cache {
+    display: none;
+  }
+
+  .btn:hover {
+    color: var(--Orange);
+    background-color: var(--violet);
+  }

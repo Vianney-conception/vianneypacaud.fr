@@ -681,7 +681,6 @@ body.Claire .chat-input input[type="text"] {
 .chat-container h2 {
     font-family: var(--font);
     margin-bottom: 10px;
-    /* Mode sombre par défaut */
     color: var(--blanc);
 }
 
