@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vianney Pacaud | Développeur Fullstack</title>
+    <link rel="icon" type="image/png" href="https://vianneypacaud.fr/img/LogoCouleur.png">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts - Inter & Space Grotesk pour un aspect tech et ultra moderne -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            green: '#007211',
+                            blue: '#3400D1',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --primary-green: #007211;
+            --primary-blue: #3400D1;
+        }
+
+        body {
+            background-color: #fcfdfe;
+            color: #0f172a;
+            overflow-x: hidden;
+        }
+
+        /* Grille moderne de fond */
+        .bg-grid-pattern {
+            background-size: 50px 50px;
+            background-image: 
+                linear-gradient(to right, rgba(15, 23, 42, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(15, 23, 42, 0.02) 1px, transparent 1px);
+        }
+
+        /* Texte en dégradé */
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary-green), var(--primary-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Bouton au design futuriste */
+        .btn-premium {
+            position: relative;
+            background: linear-gradient(135deg, var(--primary-green), var(--primary-blue));
+            color: white;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+        }
+
+        .btn-premium::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-green));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 1;
+        }
+
+        .btn-premium:hover::before {
+            opacity: 1;
+        }
+
+        .btn-premium:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 12px 28px -6px rgba(52, 0, 209, 0.35);
+        }
+
+        /* Cartes Bento et projets avec tracking de lueur */
+        .interactive-card {
+            position: relative;
+            background: rgba(255, 255, 255, 0.65);
+            border: 1px solid rgba(15, 23, 42, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 4px 30px -10px rgba(15, 23, 42, 0.03);
+            border-radius: 1.5rem;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.5s ease, box-shadow 0.5s ease;
+            overflow: hidden;
+        }
+
+        .interactive-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 1.5rem;
+            padding: 1.5px;
+            background: linear-gradient(135deg, transparent, transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            transition: background 0.5s ease;
+        }
+
+        .interactive-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(0, 114, 17, 0.15);
+            box-shadow: 0 30px 60px -15px rgba(15, 23, 42, 0.08), 0 0 50px -10px rgba(0, 114, 17, 0.04);
+        }
+
+        .interactive-card:hover::after {
+            background: linear-gradient(135deg, rgba(0, 114, 17, 0.3), rgba(52, 0, 209, 0.3));
+        }
+
+        /* Lueur suivant la souris (Mouse Glow) */
+        .glow-overlay {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(
+                350px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+                rgba(0, 114, 17, 0.06),
+                transparent 80%
+            );
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 0;
+        }
+
+        .interactive-card:hover .glow-overlay {
+            opacity: 1;
+        }
+
+        /* Orbite animée haut de gamme */
+        @keyframes orbit-motion {
+            0% { transform: rotate(0deg) translateX(40px) rotate(0deg); }
+            100% { transform: rotate(360deg) translateX(40px) rotate(-360deg); }
+        }
+
+        .animate-orbit {
+            animation: orbit-motion 25s linear infinite;
+        }
+
+        /* Menu flottant dynamique */
+        .nav-island {
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02), 0 4px 16px rgba(0,0,0,0.03);
+            border: 1px solid rgba(15, 23, 42, 0.06);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Onglets IDE */
+        .ide-tab {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .ide-tab.active {
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+        .ide-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-green), var(--primary-blue));
+        }
+
+        /* Apparitions progressives de page */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="relative bg-slate-50 text-slate-900 font-sans antialiased overflow-x-hidden">
+
+    <!-- Conteneur Parallaxe de la Grille -->
+    <div id="parallax-grid" class="absolute inset-0 bg-grid-pattern pointer-events-none z-0 min-h-screen h-[4000px]" style="will-change: transform;"></div>
+    
+    <!-- Orbes lumineux d'ambiance avec parallaxe -->
+    <div id="orbe-1" class="absolute top-[5%] left-[-15%] w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-[#007211]/12 to-transparent blur-[140px] pointer-events-none z-0 animate-orbit" style="will-change: transform;"></div>
+    <div id="orbe-2" class="absolute top-[35%] right-[-15%] w-[700px] h-[700px] rounded-full bg-gradient-to-bl from-[#3400D1]/12 to-transparent blur-[160px] pointer-events-none z-0 animate-float-2" style="will-change: transform;"></div>
+    <div id="orbe-3" class="absolute bottom-[8%] left-[5%] w-[550px] h-[550px] rounded-full bg-gradient-to-tr from-[#007211]/8 to-[#3400D1]/8 blur-[120px] pointer-events-none z-0" style="will-change: transform;"></div>
+
+    <!-- Navigation flottante moderne (Island navbar) -->
+    <div class="fixed top-6 left-0 right-0 z-50 px-4 md:px-8 flex justify-center">
+        <header class="nav-island max-w-5xl w-full bg-white/80 backdrop-blur-xl rounded-2xl px-6 py-3.5 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="relative w-9 h-9 flex items-center justify-center rounded-xl bg-white shadow-sm border border-slate-100 p-1 group-hover:scale-105 transition-transform duration-300">
+                    <img src="https://vianneypacaud.fr/img/LogoCouleur.png" alt="Logo Vianney Pacaud" class="h-full w-auto object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <span class="hidden text-sm font-black text-[#007211] font-mono">VP</span>
+                </div>
+                <span class="text-lg font-bold font-display tracking-tight text-slate-800">
+                    Vianney<span class="text-[#007211]"> Pacaud</span><span class="text-[#3400D1]">.</span>
+                </span>
+            </a>
+            
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="#about" class="nav-link font-semibold text-xs uppercase tracking-wider">À propos</a>
+                <a href="#skills" class="nav-link font-semibold text-xs uppercase tracking-wider">Compétences</a>
+                <a href="#projects" class="nav-link font-semibold text-xs uppercase tracking-wider">Projets</a>
+                <a href="#contact" class="btn-premium px-4.5 py-2 rounded-xl text-xs uppercase tracking-wider font-bold z-10">Contact</a>
+            </div>
+
+            <button class="md:hidden text-slate-800 focus:outline-none" id="menu-btn" aria-label="Menu principal">
+                <i class="fa-solid fa-bars-staggered text-2xl"></i>
+            </button>
+        </header>
+    </div>
+
+    <!-- Menu Mobile -->
+    <div id="mobile-menu" class="fixed inset-0 z-40 bg-white/95 backdrop-blur-lg hidden flex-col items-center justify-center space-y-8 text-2xl font-bold font-display transition-all duration-300">
+        <a href="#about" class="mobile-link text-slate-800 hover:text-[#007211] transition-colors">À propos</a>
+        <a href="#skills" class="mobile-link text-slate-800 hover:text-[#007211] transition-colors">Compétences</a>
+        <a href="#projects" class="mobile-link text-slate-800 hover:text-[#007211] transition-colors">Projets</a>
+        <a href="#contact" class="mobile-link text-[#007211] hover:text-[#3400D1] transition-colors">Contact</a>
+        <button id="close-menu" class="absolute top-6 right-6 text-slate-800 hover:scale-110 transition-transform"><i class="fa-solid fa-xmark text-3xl"></i></button>
+    </div>
+
+    <div id="skill-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-slate-950/30 backdrop-blur-md">
+        <div class="interactive-card max-w-lg w-full p-8 relative border-t-4 border-t-[#007211] rounded-3xl shadow-2xl transition-all duration-300 scale-95 opacity-0" id="modal-container" style="background: rgba(255,255,255,0.92)">
+            <button id="close-modal" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 transition">
+                <i class="fa-solid fa-circle-xmark text-2xl"></i>
+            </button>
+            <div class="flex items-center gap-5 mb-6">
+                <div id="modal-icon-container" class="text-5xl drop-shadow-sm"></div>
+                <div>
+                    <h3 id="modal-title" class="text-2xl font-bold font-display text-slate-800"></h3>
+                    <p class="text-[#007211] font-mono text-xs font-bold uppercase tracking-widest">Expertise Technique</p>
+                </div>
+            </div>
+            <div id="modal-description" class="text-slate-600 leading-relaxed mb-6 font-medium text-sm"></div>
+            <div class="pt-5 border-t border-slate-100">
+                <p class="text-[11px] text-slate-400 font-mono italic">Déployé avec rigueur sur mes projets comme Gervo outils ou Le Rucher de la Reine.</p>
+            </div>
+        </div>
+    </div>
+
+    <main class="relative z-10">
+        <!-- Hero Section -->
+        <section class="min-h-screen flex items-center pt-32 pb-16">
+            <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100/80 border border-slate-200/50 backdrop-blur-sm shadow-sm">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#007211] opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-[#007211]"></span>
+                        </span>
+                        <span class="text-slate-600 font-mono font-semibold text-[11px] uppercase tracking-wider">Disponible pour vos projets</span>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <h1 class="text-5xl md:text-8xl font-bold font-display text-slate-900 leading-[0.95] tracking-tight">
+                            Vianney <br/> <span class="gradient-text">Pacaud</span>
+                        </h1>
+                        <p class="text-lg md:text-xl text-slate-500 max-w-lg leading-relaxed font-medium">
+                            Architecte du web moderne. Je conçois et développe des solutions numériques complètes, performantes et sécurisées.
+                        </p>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-4 pt-2">
+                        <a href="#projects" class="btn-premium px-8 py-4.5 rounded-2xl font-bold text-sm tracking-wide shadow-lg flex items-center gap-3">
+                            Découvrir mes projets <i class="fa-solid fa-arrow-right transition-transform group-hover:translate-x-1"></i>
+                        </a>
+                        <a href="mailto:contact@vianneypacaud.fr" class="bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 shadow-sm px-8 py-4.5 rounded-2xl font-bold text-sm tracking-wide transition-all duration-300">
+                            Me contacter
+                        </a>
+                    </div>
+                </div>
+
+                <!-- IDE / Terminal interactif à onglets -->
+                <div class="hidden md:block transition-all duration-500 hover:scale-[1.015]">
+                    <div class="code-window border border-slate-200/40">
+                        <!-- En-tête de l'IDE avec boutons et onglets -->
+                        <div class="code-header justify-between">
+                            <div class="flex gap-2 items-center">
+                                <div class="dot h-3 w-3 rounded-full bg-[#ff5f56]"></div>
+                                <div class="dot h-3 w-3 rounded-full bg-[#ffbd2e]"></div>
+                                <div class="dot h-3 w-3 rounded-full bg-[#27c93f]"></div>
+                            </div>
+                            
+                            <!-- Onglets du fichier -->
+                            <div class="flex gap-1 ml-6 text-xs text-slate-400 font-mono">
+                                <button onclick="switchTab('tab-py')" id="btn-tab-py" class="ide-tab active px-3.5 py-1.5 rounded-t-lg flex items-center gap-1.5">
+                                    <i class="fa-brands fa-python text-sky-400"></i> vianney.py
+                                </button>
+                                <button onclick="switchTab('tab-js')" id="btn-tab-js" class="ide-tab px-3.5 py-1.5 rounded-t-lg flex items-center gap-1.5">
+                                    <i class="fa-brands fa-js text-yellow-400"></i> outils.js
+                                </button>
+                                <button onclick="switchTab('tab-sql')" id="btn-tab-sql" class="ide-tab px-3.5 py-1.5 rounded-t-lg flex items-center gap-1.5">
+                                    <i class="fa-solid fa-database text-emerald-400"></i> rucher.sql
+                                </button>
+                            </div>
+                            <div class="w-16"></div> <!-- Espacement pour équilibrer -->
+                        </div>
+
+                        <!-- Corps de l'éditeur (Code) -->
+                        <div class="p-8 font-mono text-xs md:text-sm leading-relaxed text-slate-300 min-h-[300px]">
+                            <!-- Onglet Python (vianney.py) -->
+                            <div id="code-tab-py" class="code-content block">
+                                <p><span class="text-[#f472b6]">class</span> <span class="text-[#4ade80]">Developer</span>:</p>
+                                <p class="pl-4 text-slate-500">def __init__(self):</p>
+                                <p class="pl-8">self.name = <span class="text-[#38bdf8]">"Vianney Pacaud"</span></p>
+                                <p class="pl-8">self.stack = [<span class="text-[#38bdf8]">"PHP", "JS", "Python", "SQL"</span>]</p>
+                                <p class="pl-8">self.ambition = <span class="text-[#38bdf8]">"Build clean tech"</span></p>
+                                
+                                <p class="pl-4 mt-3 text-slate-500">def get_status(self):</p>
+                                <p class="pl-8 text-[#f472b6]">return <span class="text-[#38bdf8]">"Ready to innovate"</span></p>
+                                
+                                <p class="mt-6 text-slate-500"># Let's execute</p>
+                                <p><span class="text-[#4ade80]">print</span>(Developer().get_status())</p>
+                                <p class="text-[#4ade80] mt-1 font-semibold">&gt;&gt;&gt; "Ready to innovate"</p>
+                            </div>
+
+                            <!-- Onglet JavaScript (outils.js) -->
+                            <div id="code-tab-js" class="code-content hidden">
+                                <p><span class="text-[#f472b6]">const</span> <span class="text-[#4ade80]">gervoOutils</span> = {</p>
+                                <p class="pl-4">type: <span class="text-[#38bdf8]">"Boîte à outils locale"</span>,</p>
+                                <p class="pl-4">security: <span class="text-[#38bdf8]">"100% Client-Side"</span>,</p>
+                                <p class="pl-4">features: [</p>
+                                <p class="pl-8"><span class="text-[#38bdf8]">"Convertisseur d'image"</span>,</p>
+                                <p class="pl-8"><span class="text-[#38bdf8]">"Partage fichiers lourds"</span>,</p>
+                                <p class="pl-8"><span class="text-[#38bdf8]">"Générateur QR Code"</span></p>
+                                <p class="pl-4">],</p>
+                                <p class="pl-4">run: () =&gt; <span class="text-[#f472b6]">{</span></p>
+                                <p class="pl-8 text-[#4ade80]">console.log(<span class="text-[#38bdf8]">"Zéro donnée partagée"</span>);</p>
+                                <p class="pl-4"><span class="text-[#f472b6]">}</span></p>
+                                <p>};</p>
+                            </div>
+
+                            <!-- Onglet SQL (rucher.sql) -->
+                            <div id="code-tab-sql" class="code-content hidden">
+                                <p><span class="text-[#f472b6]">SELECT</span> product_name, stock, price</p>
+                                <p><span class="text-[#f472b6]">FROM</span> <span class="text-[#4ade80]">rucher_de_la_reine</span></p>
+                                <p><span class="text-[#f472b6]">WHERE</span> category = <span class="text-[#38bdf8]">'miel_artisanal'</span></p>
+                                <p><span class="text-[#f472b6]">AND</span> available = <span class="text-[#4ade80]">true</span></p>
+                                <p><span class="text-[#f472b6]">ORDER BY</span> quality <span class="text-[#f472b6]">DESC</span>;</p>
+                                <p class="mt-4 text-slate-500">-- Result: 100% Pur miel, Sécurisé, E-commerce de pointe</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section À Propos & Infos via une grille Bento moderne -->
+        <section id="about" class="py-24 bg-white/40 border-y border-slate-200/50 relative">
+            <div class="container mx-auto px-6">
+                
+                <div class="mb-16 text-center md:text-left reveal">
+                    <div class="h-1 w-12 bg-[#007211] rounded-full mb-4 mx-auto md:mx-0"></div>
+                    <h2 class="text-4xl font-bold font-display text-slate-900 tracking-tight">À propos de moi</h2>
+                    <p class="text-slate-500 mt-2 font-medium">Une vision moderne de l'ingénierie web.</p>
+                </div>
+
+                <!-- Bento Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <!-- Box 1 (Grande) : Biographie -->
+                    <div class="interactive-card p-8 md:col-span-2 flex flex-col justify-between group reveal">
+                        <div class="glow-overlay"></div>
+                        <div class="relative z-10 space-y-6">
+                            <span class="text-[#007211] font-mono text-xs font-bold uppercase tracking-widest">Ma philosophie</span>
+                            <h3 class="text-2xl md:text-3xl font-bold font-display text-slate-800 leading-snug">
+                                Transformer la complexité <br/> en simplicité élégante
+                            </h3>
+                            <p class="text-slate-600 leading-relaxed font-medium">
+                                Développeur curieux et hautement polyvalent, je façonne des expériences numériques complètes. De la structure backend à l'habillage sémantique en passant par la fluidité des interactions, je privilégie la clarté et la durabilité du code.
+                            </p>
+                            <p class="text-slate-600 leading-relaxed font-medium">
+                                Mon leitmotiv : une conception sans fioriture, centrée sur l'utilisateur, que ce soit pour des utilitaires locaux sécurisés ou des architectures e-commerce performantes.
+                            </p>
+                        </div>
+                        <div class="relative z-10 flex gap-5 pt-8 border-t border-slate-100">
+                            <a href="https://github.com/Vianney-conception" target="_blank" class="text-2xl text-slate-400 hover:text-[#007211] transition-colors"><i class="fa-brands fa-github"></i></a>
+                            <a href="https://www.linkedin.com/in/vianney-pacaud-074b91317/" target="_blank" class="text-2xl text-slate-400 hover:text-[#3400D1] transition-colors"><i class="fa-brands fa-linkedin"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Box 2 (Moyenne) : Réseau & Projets -->
+                    <div class="interactive-card p-8 flex flex-col justify-between group reveal">
+                        <div class="glow-overlay"></div>
+                        <div class="relative z-10 space-y-6">
+                            <span class="text-[#3400D1] font-mono text-xs font-bold uppercase tracking-widest">Statistiques</span>
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="text-4xl font-extrabold font-display text-slate-800">100%</div>
+                                    <div class="text-xs text-slate-500 font-bold uppercase tracking-wider mt-1">Écrit de zéro (Pure code)</div>
+                                </div>
+                                <hr class="border-slate-100">
+                                <div>
+                                    <div class="text-4xl font-extrabold font-display text-slate-800">Client-Side</div>
+                                    <div class="text-xs text-slate-500 font-bold uppercase tracking-wider mt-1">Sécurité de pointe des outils</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative z-10 pt-4 text-xs font-mono text-slate-400 italic">
+                            Chaque brique est pensée pour durer.
+                        </div>
+                    </div>
+
+                    <!-- Box 3 (Moyenne) : Compétences dynamiques -->
+                    <div id="skills" class="interactive-card p-8 md:col-span-3 group reveal">
+                        <div class="glow-overlay"></div>
+                        <div class="relative z-10 space-y-6">
+                            <div class="flex justify-between items-center">
+                                <span class="text-[#007211] font-mono text-xs font-bold uppercase tracking-widest">Stack technique</span>
+                                <span class="text-xs font-bold text-slate-400 font-mono">Cliquez pour analyser</span>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <!-- JS -->
+                                <div class="glass-card p-5 text-center cursor-pointer skill-card rounded-2xl bg-slate-50 hover:bg-yellow-50/50 transition-colors duration-300" data-skill="js">
+                                    <i class="fa-brands fa-js text-4xl text-yellow-500 mb-3 block"></i>
+                                    <span class="font-bold text-slate-800 text-sm">JavaScript</span>
+                                </div>
+                                <!-- PHP -->
+                                <div class="glass-card p-5 text-center cursor-pointer skill-card rounded-2xl bg-slate-50 hover:bg-indigo-50/50 transition-colors duration-300" data-skill="php">
+                                    <i class="fa-brands fa-php text-4xl text-[#3400D1] mb-3 block"></i>
+                                    <span class="font-bold text-slate-800 text-sm">PHP</span>
+                                </div>
+                                <!-- Python -->
+                                <div class="glass-card p-5 text-center cursor-pointer skill-card rounded-2xl bg-slate-50 hover:bg-sky-50/50 transition-colors duration-300" data-skill="python">
+                                    <i class="fa-brands fa-python text-4xl text-sky-500 mb-3 block"></i>
+                                    <span class="font-bold text-slate-800 text-sm">Python</span>
+                                </div>
+                                <!-- HTML -->
+                                <div class="glass-card p-5 text-center cursor-pointer skill-card rounded-2xl bg-slate-50 hover:bg-orange-50/50 transition-colors duration-300" data-skill="html">
+                                    <i class="fa-brands fa-html5 text-4xl text-orange-500 mb-3 block"></i>
+                                    <span class="font-bold text-slate-800 text-sm">HTML / CSS</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Projets -->
+        <section id="projects" class="py-24">
+            <div class="container mx-auto px-6">
+                <div class="mb-16 reveal">
+                    <div class="h-1 w-12 bg-[#007211] rounded-full mb-4"></div>
+                    <h2 class="text-4xl font-bold font-display text-slate-900 tracking-tight">Projets Récents</h2>
+                    <p class="text-slate-500 mt-2 font-medium">Des travaux de pointe conçus de façon artisanale.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-10">
+                    
+                    <!-- Projet 1 : Gervo outils -->
+                    <div class="interactive-card overflow-hidden group reveal flex flex-col justify-between">
+                        <div class="glow-overlay"></div>
+                        <div class="relative z-10">
+                            <!-- Visual Top de la carte -->
+                            <div class="h-64 bg-gradient-to-br from-[#3400D1]/80 to-[#007211]/80 relative flex items-center justify-center p-1 overflow-hidden">
+                                <div class="absolute inset-0 bg-white/10 backdrop-blur-[1px]"></div>
+                                <div class="relative text-white text-center p-8 transition-transform duration-500 group-hover:scale-105">
+                                    <div class="w-20 h-20 mx-auto mb-4 bg-white/10 rounded-2xl flex items-center justify-center backdrop-blur-md shadow-inner border border-white/20">
+                                        <i class="fa-solid fa-toolbox text-4xl animate-pulse"></i>
+                                    </div>
+                                    <h3 class="text-3xl font-black font-display tracking-tight uppercase">Gervo outils</h3>
+                                </div>
+                            </div>
+                            
+                            <!-- Contenu -->
+                            <div class="p-8">
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <span class="px-2.5 py-1 rounded-md bg-yellow-50 text-yellow-700 text-[10px] font-bold font-mono uppercase tracking-wider border border-yellow-200/50">JavaScript</span>
+                                    <span class="px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 text-[10px] font-bold font-mono uppercase tracking-wider border border-emerald-200/50">Local / Securité</span>
+                                </div>
+                                <h3 class="text-2xl font-bold font-display text-slate-800 mb-3">Boîte à outils web intégrée</h3>
+                                <p class="text-slate-500 text-sm leading-relaxed font-medium">
+                                    Un panel d'outils s'exécutant de façon sécurisée directement dans votre navigateur. Inclut un convertisseur d'images rapide, un protocole de partage de fichiers lourds, un générateur de QR codes statiques, et d'autres utilitaires performants sans transfert de données externe.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="px-8 pb-8 relative z-10">
+                            <a href="https://outils.gervo.fr/" target="_blank" class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#007211] hover:text-[#3400D1] transition-colors duration-300 group/link">
+                                Explorer l'environnement <i class="fa-solid fa-arrow-up-right-from-square text-[10px] transition-transform duration-300 group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Projet 2 : Le Rucher de la Reine -->
+                    <div class="interactive-card overflow-hidden group reveal flex flex-col justify-between">
+                        <div class="glow-overlay"></div>
+                        <div class="relative z-10">
+                            <!-- Visual Top de la carte -->
+                            <div class="h-64 bg-gradient-to-br from-[#007211]/80 to-[#3400D1]/80 relative flex items-center justify-center p-1 overflow-hidden">
+                                <div class="absolute inset-0 bg-white/10 backdrop-blur-[1px]"></div>
+                                <div class="relative text-white text-center p-8 transition-transform duration-500 group-hover:scale-105">
+                                    <div class="w-20 h-20 mx-auto mb-4 bg-white/10 rounded-2xl flex items-center justify-center backdrop-blur-md shadow-inner border border-white/20">
+                                        <i class="fa-solid fa-basket-shopping text-4xl"></i>
+                                    </div>
+                                    <h3 class="text-3xl font-black font-display tracking-tight uppercase">Le Rucher</h3>
+                                </div>
+                            </div>
+                            
+                            <!-- Contenu -->
+                            <div class="p-8">
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <span class="px-2.5 py-1 rounded-md bg-indigo-50 text-indigo-700 text-[10px] font-bold font-mono uppercase tracking-wider border border-indigo-200/50">PHP / SQL</span>
+                                    <span class="px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 text-[10px] font-bold font-mono uppercase tracking-wider border border-emerald-200/50">E-commerce</span>
+                                </div>
+                                <h3 class="text-2xl font-bold font-display text-slate-800 mb-3">Le Rucher de la Reine</h3>
+                                <p class="text-slate-500 text-sm leading-relaxed font-medium">
+                                    Développement d'une boutique en ligne sur mesure, fluide, robuste et sécurisée conçue spécifiquement pour un artisan producteur de miel de grande qualité.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="px-8 pb-8 relative z-10">
+                            <a href="https://lerucherdelareine.fr/Boutique/" target="_blank" class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#3400D1] hover:text-[#007211] transition-colors duration-300 group/link">
+                                Découvrir le site marchand <i class="fa-solid fa-arrow-up-right-from-square text-[10px] transition-transform duration-300 group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Contact -->
+        <section id="contact" class="py-24 bg-white/50 border-t border-slate-200/60 relative">
+            <div class="container mx-auto px-6 max-w-4xl text-center reveal">
+                <div class="h-1 w-12 bg-[#007211] rounded-full mx-auto mb-4"></div>
+                <h2 class="text-4xl font-bold font-display text-slate-900 mb-6 tracking-tight">Donnons vie à vos projets</h2>
+                <p class="text-slate-500 mb-12 max-w-2xl mx-auto font-medium leading-relaxed">
+                    Je suis à l'écoute de vos besoins pour concevoir l'architecture et développer la solution technique de vos idées les plus ambitieuses. Échangeons ensemble !
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                    <a href="mailto:contact@vianneypacaud.fr" class="btn-gradient px-8 py-4.5 rounded-2xl font-bold flex items-center justify-center gap-3 w-full sm:w-auto shadow-lg text-sm tracking-wide">
+                        <i class="fa-solid fa-envelope text-lg"></i> contact@vianneypacaud.fr
+                    </a>
+                    <a href="https://www.linkedin.com/in/vianney-pacaud-074b91317/" target="_blank" class="bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 shadow-sm px-8 py-4.5 rounded-2xl font-bold text-sm tracking-wide transition-all duration-300 w-full sm:w-auto">
+                        Discuter sur LinkedIn
+                    </a>
+                </div>
+                
+                <div class="mt-16 flex justify-center gap-8 text-3xl">
+                    <a href="https://github.com/Vianney-conception" target="_blank" class="text-slate-300 hover:text-[#007211] hover:scale-105 transition-all" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/vianney-pacaud-074b91317/" target="_blank" class="text-slate-300 hover:text-[#3400D1] hover:scale-105 transition-all" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-16 bg-slate-50 border-t border-slate-200/60 text-center relative z-10">
+        <div class="container mx-auto px-6">
+            <div class="mb-6 flex justify-center">
+                <div class="w-10 h-10 flex items-center justify-center rounded-xl bg-white shadow-sm border border-slate-100 p-1">
+                    <img src="https://vianneypacaud.fr/img/LogoCouleur.png" alt="Logo" class="h-full w-auto object-contain grayscale opacity-60">
+                </div>
+            </div>
+            <p class="text-slate-500 text-sm font-medium">&copy; <span id="year"></span> Vianney Pacaud. Réalisé avec passion et code propre.</p>
+        </div>
+    </footer>
+
+    <!-- Logic Script -->
+    <script>
+        // Année du copyright mise à jour dynamiquement
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Données des compétences pour la modale
+        const skillData = {
+            js: {
+                title: "JavaScript",
+                icon: '<div class="w-16 h-16 flex items-center justify-center rounded-2xl bg-yellow-50 text-yellow-500 shadow-sm"><i class="fa-brands fa-js"></i></div>',
+                description: "Le cœur de l'interactivité web moderne. J'utilise JavaScript pour concevoir des applications clients réactives, des utilitaires puissants fonctionnant 100% côté client (convertisseurs de données, manipulateurs d'API) et des architectures asynchrones optimisées. Solide maîtrise de l'ES6+ et de la gestion de structures DOM complexes."
+            },
+            php: {
+                title: "PHP",
+                icon: '<div class="w-16 h-16 flex items-center justify-center rounded-2xl bg-[#3400D1]/5 text-[#3400D1] shadow-sm"><i class="fa-brands fa-php"></i></div>',
+                description: "Mon langage pilier pour le développement backend. De la conception de sites marchands sécurisés comme 'Le Rucher de la Reine' à la mise en œuvre de systèmes d'authentification robuste, j'exploite PHP pour structurer des back-offices clairs, fiables, connectés aux bases de données relationnelles MySQL."
+            },
+            python: {
+                title: "Python",
+                icon: '<div class="w-16 h-16 flex items-center justify-center rounded-2xl bg-sky-50 text-sky-500 shadow-sm"><i class="fa-brands fa-python"></i></div>',
+                description: "La boîte à outils indispensable au traitement de données et à l'automatisation. J'écris des scripts Python optimisés pour le scraping, la restructuration d'informations complexes, et la modélisation logique. Idéal pour développer de petits services utilitaires puissants et précis."
+            },
+            html: {
+                title: "HTML5 & CSS3",
+                icon: '<div class="w-16 h-16 flex items-center justify-center rounded-2xl bg-orange-50 text-orange-500 shadow-sm"><i class="fa-brands fa-html5"></i></div>',
+                description: "Les briques élémentaires d'une présence en ligne réussie. J'applique une rigueur sémantique sans faille pour garantir l'accessibilité universelle et optimiser le référencement naturel. J'utilise Tailwind CSS pour designer des interfaces fluides adaptées à toutes les dimensions d'écrans."
+            }
+        };
+
+        // Gestion de la modale de compétences
+        const modal = document.getElementById('skill-modal');
+        const modalContainer = document.getElementById('modal-container');
+        const closeModalBtn = document.getElementById('close-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalIcon = document.getElementById('modal-icon-container');
+        const modalDesc = document.getElementById('modal-description');
+
+        document.querySelectorAll('.skill-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const skill = card.getAttribute('data-skill');
+                const data = skillData[skill];
+                
+                modalTitle.textContent = data.title;
+                modalIcon.innerHTML = data.icon;
+                modalDesc.textContent = data.description;
+                
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                
+                // Animation de zoom modale
+                setTimeout(() => {
+                    modalContainer.classList.remove('scale-95', 'opacity-0');
+                    modalContainer.classList.add('scale-100', 'opacity-100');
+                }, 50);
+                
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        const hideModal = () => {
+            modalContainer.classList.remove('scale-100', 'opacity-100');
+            modalContainer.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = 'auto';
+            }, 250);
+        };
+
+        closeModalBtn.addEventListener('click', hideModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) hideModal();
+        });
+
+        // Menu Mobile (Burger)
+        const menuBtn = document.getElementById('menu-btn');
+        const closeBtn = document.getElementById('close-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('hidden');
+            mobileMenu.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        });
+
+        const closeMenu = () => {
+            mobileMenu.classList.add('hidden');
+            mobileMenu.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        };
+
+        closeBtn.addEventListener('click', closeMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', closeMenu));
+
+        // Déplacement fluide pour les ancres
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Intersection Observer pour les effets d'apparition (reveal)
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Système interactif d'onglets pour le terminal IDE
+        function switchTab(tabId) {
+            // Masquer tous les codes
+            document.querySelectorAll('.code-content').forEach(el => {
+                el.classList.replace('block', 'hidden');
+            });
+            // Activer le code sélectionné
+            document.getElementById(`code-${tabId}`).classList.replace('hidden', 'block');
+            
+            // Retirer la classe active de tous les boutons
+            document.querySelectorAll('.ide-tab').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            // Activer le bouton de l'onglet cliqué
+            document.getElementById(`btn-${tabId}`).classList.add('active');
+        }
+
+        // Effet parallaxe sur la grille géométrique de fond
+        const parallaxGrid = document.getElementById('parallax-grid');
+        const orbe1 = document.getElementById('orbe-1');
+        const orbe2 = document.getElementById('orbe-2');
+        const orbe3 = document.getElementById('orbe-3');
+
+        let scrollY = window.pageYOffset;
+        let ticking = false;
+
+        function updateParallax() {
+            // Déplacement asynchrone (30% de la vitesse de scroll pour la grille)
+            if (parallaxGrid) {
+                parallaxGrid.style.transform = `translate3d(0, ${scrollY * 0.3}px, 0)`;
+            }
+            if (orbe1) {
+                orbe1.style.transform = `translate3d(0, ${scrollY * 0.12}px, 0)`;
+            }
+            if (orbe2) {
+                orbe2.style.transform = `translate3d(0, ${scrollY * -0.08}px, 0)`;
+            }
+            if (orbe3) {
+                orbe3.style.transform = `translate3d(0, ${scrollY * 0.05}px, 0)`;
+            }
+            ticking = false;
+        }
+
+        window.addEventListener('scroll', () => {
+            scrollY = window.pageYOffset;
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    updateParallax();
+                });
+                ticking = true;
+            }
+        });
+
+        // Effet dynamique de lueur de souris (Mouse Glow)
+        document.querySelectorAll('.interactive-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+</body>
+</html>

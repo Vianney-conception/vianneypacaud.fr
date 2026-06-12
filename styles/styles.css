@@ -22,7 +22,8 @@
     --ombre1Hover: var(--vert) 0px 2px 8px 0px;
     --ombre2: rgba(45, 49, 49, 0.1) 0px 4px 12px 0px;
     --ombreForte: 0 0 20px 4px rgb(0 0 0 / 45%);
-    --ombreMoyenne: 0 0 16px 0px rgb(0 0 0 / 35%)
+    --ombreMoyenne: 0 0 16px 0px rgb(0 0 0 / 35%);
+    --degrade-vert-bleu: linear-gradient(-90deg,var(--bleuModeClaire) 0%, var(--vertModeClaire) 76%);
 }
 
 body {
@@ -34,8 +35,8 @@ body {
 }
 
 header.scroll {
-    width: 850px;
-    max-width: 100%;
+    width: 90%;
+    max-width: 850px;
     height: 60px;
     top: 20px;
     left: 50%;
@@ -46,6 +47,10 @@ header.scroll {
 
 header.scroll h1 {
     font-size: 1.3rem;
+}
+
+.MenuBurger {
+    display: none;
 }
 
 header.scroll .logo img {
@@ -69,6 +74,7 @@ header {
     display: flex;
     align-items: center;
     transition: all ease 0.2s;
+    z-index: 100;
 }
 
 header .logo img {
@@ -93,6 +99,7 @@ nav {
     justify-content: right;
     width: 100%;
     padding: 0 10px 0 0;
+     z-index: 105;
 }
 
 nav a.active {
@@ -140,7 +147,8 @@ a {
 }
 
 .glass-box,
-header.scroll {
+header.scroll,
+nav.Responsive {
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -149,21 +157,137 @@ header.scroll {
     transition: all ease 0.2s;
 }
 
-@media screen and (max-width: 730px) {
-    nav {
-        position: fixed;
-        top: 80px;
-        right: 20px;
-        flex-direction: column;
-        background: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.25);
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
-        transition: all ease 0.2s;
-        border-radius: 1.2rem;
-        width: auto;
-        padding: 10px;
-        gap: 15px;
+nav.Responsive {
+    display: none;
+    position: fixed;
+    top: 90px;
+    flex-direction: column;
+    border-radius: 1.5rem;
+    padding: 20px;
+    right: 20px;
+    width: auto;
+}
+
+nav.Responsive.on {
+    display: flex;
+}
+
+button {
+    border: unset;
+    outline: unset;
+    background-color: unset;
+    stroke: var(--bleuModeClaire);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    stroke: var(--vertModeClaire);
+}
+
+.MenuBurger svg path {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform-origin: center;
+}
+
+.MenuBurger.on .line-top {
+    transform: translateY(5px) translateX(-4px) rotate(45deg);
+}
+
+.MenuBurger.on .line-mid {
+    transform: translateY(-0px) translateX(1px) rotate(-45deg);
+}
+
+.MenuBurger.on .line-bot {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.Degrade {
+    background: var(--degrade-vert-bleu);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+section{
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+section .text{
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+}
+#A_propos .text .titre{
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+#A_propos .text .titre h1{
+    margin: 0;
+    font-size: 7rem;
+}
+section .text p{
+    font-size: 1.6rem;
+}
+#A_propos .text{
+    width: 100%;
+    max-width: 470px;
+    color: var(--grisNuance3);
+}
+section{
+    max-width: 1000px;
+    margin: auto;
+}
+section .illustration {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    align-items: center;
+    
+}
+section .illustration .BoiteCodeInteractif{
+    width: 100%;
+    /*height: 340px;*/
+    height: 90%;
+    border-radius: 1.5rem;
+    box-shadow: var(--ombre1);
+}
+.onglet {
+    display: flex;
+    width: 100%;
+    height: 40px;
+    position: relative;
+    top: 0px;
+    padding: 5px;
+    align-items: center;
+    padding-left: 8px;
+    gap: 8px;
+}
+.onglet button svg{
+
+    height: 1.2rem;
+}
+.onglet button{
+    display: flex;
+    stroke: unset;
+    gap: 3px;
+    font-size: 1.2rem;
+    color: var(--bleuFonce);
+    border-radius: 0.8rem;
+    padding: 5px 7px 5px 7px;
+    box-shadow: var(--ombre1);
+}
+@media (max-width: 830px) {
+    .MenuBurger {
+        display: flex;
+    }
+
+    header h1 {
+        width: 100%;
     }
 }
