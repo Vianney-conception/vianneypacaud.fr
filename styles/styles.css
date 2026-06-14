@@ -1,8 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
 
-:root {
+@property --angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
 
+:root {
     --fondModeClaire: #d4dae3b0;
     --bleuModeClaire: #002060;
     --vertModeClaire: #007211;
@@ -91,6 +96,7 @@ h1 {
     font-family: "Space Grotesk", sans-serif;
     font-optical-sizing: auto;
     font-size: 2rem;
+    margin: 0;
 }
 
 nav {
@@ -214,7 +220,6 @@ button:hover {
 section {
     padding: 20px;
     display: flex;
-    justify-content: space-between;
 }
 
 section .text {
@@ -224,14 +229,14 @@ section .text {
     width: 40%;
 }
 
-#A_propos .text .titre {
+#Entete .text .titre {
     padding: 5px;
     display: flex;
     flex-direction: column;
     gap: 0;
 }
 
-#A_propos .text .titre h1 {
+#Entete .text .titre h1 {
     margin: 0;
     font-size: 7rem;
 }
@@ -240,7 +245,7 @@ section .text p {
     font-size: 1.6rem;
 }
 
-#A_propos .text {
+#Entete .text {
     width: 100%;
     max-width: 470px;
     color: var(--grisNuance3);
@@ -309,6 +314,78 @@ pre.on {
     display: block;
 }
 
+.Seperation {
+    width: 50px;
+    height: 5px;
+    margin-bottom: 5px;
+    background-color: var(--vert);
+}
+
+#Entete {
+    justify-content: space-between;
+}
+
+#A_propos h1 {
+    font-size: 3rem;
+    color: var(--bleuModeClaire);
+}
+
+#A_propos p {
+    color: var(--grisNuance3);
+    font-size: 1.3rem;
+    font-family: 'Roboto';
+    margin: 0
+}
+
+#A_propos .text {
+    width: 60%;
+}
+
+#MaPhilosophie {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    margin-left: 10px;
+    margin-top: 40px;
+    padding: 10px 10px 10px 30px;
+    border-radius: 1.5rem;
+    box-shadow: unset;
+    border: none;
+    transition: all ease 0.3s;
+}
+
+#MaPhilosophie:hover::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 1.5rem;
+    padding: 3px;
+    background: conic-gradient(from var(--angle), rgba(0, 0, 0, 0), var(--vertModeClaire), rgba(0, 0, 0, 0));
+    animation: rotationBordure 5s linear infinite;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+@keyframes rotationBordure {
+    to {
+        --angle: 360deg;
+    }
+}
+
+#MaPhilosophie h1 {
+    font-size: 2rem;
+    color: var(--bleuModeClaire);
+}
+
+h3 {
+    font-family: 'Roboto';
+    color: var(--vertModeClaire);
+    font-size: 1.2rem;
+    font-weight: 200;
+}
+
 @media (max-width: 900px) {
     section {
         flex-direction: column;
@@ -327,7 +404,7 @@ pre.on {
 }
 
 @media (max-width: 460px) {
-    #A_propos .text .titre h1 {
+    #Entete .text .titre h1 {
         font-size: 6rem;
     }
 
@@ -338,7 +415,7 @@ pre.on {
 }
 
 @media (max-width: 400px) {
-    #A_propos .text .titre h1 {
+    #Entete .text .titre h1 {
         font-size: 5rem;
     }
 
@@ -352,7 +429,7 @@ pre.on {
 }
 
 @media (max-width: 340px) {
-    #A_propos .text .titre h1 {
+    #Entete .text .titre h1 {
         font-size: 4rem;
     }
 
