@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Rucher de la Reine - Présentation 3D</title>
+    
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #0b0b0b;
+            color: #ffffff;
+            margin: 0;
+            font-family: sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Zone de scroll qui va piloter l'animation (300vh = 3 hauteurs d'écran de défilement) */
+        .scroll-container {
+            height: 300vh;
+            position: relative;
+        }
+
+        /* Le canvas reste fixé à l'écran pendant le scroll */
+        .canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+            pointer-events: none; /* Laisse passer les clics au début */
+        }
+
+        canvas {
+            max-width: 100%;
+            max-height: 100vh;
+            object-fit: contain;
+        }
+
+        /* Remplacement des styles Tailwind par du CSS natif */
+        .intro-text {
+            position: absolute;
+            top: 10vh;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 10;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            will-change: transform, opacity;
+        }
+
+        .intro-title {
+            font-size: 2.25rem; /* ~text-4xl */
+            font-weight: bold;
+            color: #fbbf24; /* amber-400 */
+            text-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+            margin: 0 0 0.5rem 0;
+        }
+
+        @media (min-width: 768px) {
+            .intro-title {
+                font-size: 3.75rem; /* ~text-6xl */
+            }
+        }
+
+        .intro-desc {
+            color: #9ca3af; /* text-gray-400 */
+            font-size: 1.125rem; /* ~text-lg */
+            margin: 0;
+        }
+
+        .footer-section {
+            background-color: #111111;
+            min-height: 100vh;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer-content {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .footer-title {
+            font-size: 1.875rem; /* ~text-3xl */
+            font-weight: bold;
+            color: #fbbf24; /* amber-400 */
+            margin: 0 0 1rem 0;
+        }
+
+        .footer-desc {
+            color: #9ca3af; /* text-gray-400 */
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Conteneur global du scroll -->
+    <div class="scroll-container">
+        
+        <!-- Titre d'intro qui s'efface au scroll -->
+        <div class="intro-text" id="intro-text">
+            <h1 class="intro-title">Découvrez notre boutique</h1>
+            <p class="intro-desc">Scrollez pour ouvrir l'ordinateur</p>
+        </div>
+
+        <!-- Zone fixe contenant le Canvas où s'affiche l'ordinateur -->
+        <div class="canvas-container">
+            <canvas id="laptop-canvas"></canvas>
+        </div>
+
+    </div>
+
+    <!-- Section suivante pour terminer le scroll naturellement -->
+    <div class="footer-section">
+        <div class="footer-content">
+            <h2 class="footer-title">Bienvenue sur le Rucher de la Reine</h2>
+            <p class="footer-desc">Votre boutique est maintenant entièrement ouverte.</p>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById("laptop-canvas");
+        const context = canvas.getContext("2d");
+
+        // Configuration de la séquence d'images
+        const frameCount = 62; // Nombre mis à jour à 62 images
+        
+        // Fonction pour générer le chemin de chaque image (ex: AnimationOrdinateur/img/0001.png)
+        const currentFrame = index => (
+            `AnimationOrdinateur/img2/${index.toString().padStart(4, '0')}.png`
+        );
+
+        // Tableau pour stocker tous les objets Image préchargés
+        const images = [];
+        const laptop = { frame: 0 };
+
+        // Variables pour gérer l'inertie de défilement (Lerp) sans bibliothèque externe
+        let targetFrameFloat = 0;
+        let currentFrameFloat = 0;
+        const lerpFactor = 0.08; // Ajuste pour l'inertie (plus petit = plus doux, plus grand = plus réactif)
+
+        // Définition de la taille de rendu du Canvas (à adapter selon ton rendu Blender, ex: 1920x1080)
+        canvas.width = 1920;
+        canvas.height = 1080;
+
+        // Préchargement de toutes les images pour éviter les clignotements noirs pendant le scroll
+        let imagesLoaded = 0;
+        for (let i = 1; i <= frameCount; i++) {
+            const img = new Image();
+            img.src = currentFrame(i);
+            images.push(img);
+            img.onload = () => {
+                imagesLoaded++;
+                if (imagesLoaded === frameCount) {
+                    // Une fois toutes les images chargées, on affiche la première et on active les événements
+                    render();
+                    window.addEventListener('scroll', handleScroll, { passive: true });
+                    // On simule un premier scroll pour caler les valeurs
+                    handleScroll();
+                    // Lancement de la boucle d'animation fluide
+                    updateAnimationLoop();
+                }
+            };
+        }
+
+        // Fonction pour dessiner la frame actuelle sur le Canvas
+        function render() {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            if (images[laptop.frame]) {
+                context.drawImage(images[laptop.frame], 0, 0);
+            }
+        }
+
+        // Gestion du scroll natif
+        function handleScroll() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollContainer = document.querySelector('.scroll-container');
+            const maxScroll = scrollContainer.offsetHeight - window.innerHeight;
+            
+            // Progression globale du scroll (entre 0 et 1)
+            let progress = scrollTop / maxScroll;
+            if (progress < 0) progress = 0;
+            if (progress > 1) progress = 1;
+
+            // Définir la frame cible (flottante) vers laquelle l'inertie doit tendre
+            targetFrameFloat = progress * (frameCount - 1);
+
+            // Effet sur le texte d'intro (fade out et translation vers le haut jusqu'à 25% du scroll)
+            const textProgress = Math.min(1, progress / 0.25);
+            const introText = document.getElementById("intro-text");
+            if (introText) {
+                introText.style.opacity = 1 - textProgress;
+                introText.style.transform = `translateY(${-50 * textProgress}px)`;
+            }
+        }
+
+        // Boucle d'animation (Inertie Lerp)
+        function updateAnimationLoop() {
+            // Rapprochement progressif de la frame courante vers la cible
+            currentFrameFloat += (targetFrameFloat - currentFrameFloat) * lerpFactor;
+            
+            const roundedFrame = Math.round(currentFrameFloat);
+            
+            // On ne redessine le canvas que si l'index de la frame a réellement changé
+            if (laptop.frame !== roundedFrame) {
+                laptop.frame = roundedFrame;
+                render();
+            }
+
+            requestAnimationFrame(updateAnimationLoop);
+        }
+    </script>
+</body>
+</html>
