@@ -28,8 +28,9 @@
                     <path d="M4 19h16" class="line-bot" />
                 </svg></button>
             <nav id="BoutonsNavigation"><a id="btnApropos" class="animation" href="#A_proposRepere">À PROPOS</a><a
-                    class="animation" id="btnProjet" href="#Projet">PROJETS</a><a class="animation" href="/Client/">ESPACE CLIENT</a><a
-                    class="animation" id="btnContact" href="#Contact">CONTACT</a></nav>
+                    class="animation" id="btnProjet" href="#Projet">PROJETS</a><a class="animation"
+                    href="/Client/">ESPACE CLIENT</a><a class="animation" id="btnContact" href="#Contact">CONTACT</a>
+            </nav>
         </header>
         <div id="" style="height: 100px;"></div>
         <section id="Entete">
@@ -85,8 +86,8 @@
                     <span style="color: #6a737d;"># Let's execute</span>
             <span style="color: #0052cc;">print</span>(Developer().get_status())
 <span style="color: #6a737d;">>>> "Ready to innovate"</span></code></pre>
-                        <pre class="JavaScriptExemple" id="JavaScriptExemple"
-                            style="background-color: #f6f8fa; color: #24292e; padding: 15px; border-radius: 5px; font-family: 'Courier New', Courier, monospace; line-height: 1.5;"><code><span style="color: #d73a49;">const</span> <span style="color: #6f42c1;">gervoOutils</span> = {
+                        <pre class="JavaScriptExemple" id="JavaScriptExemple" color: #24292e; padding: 15px;
+                            border-radius: 5px; font-family: 'Courier New' , Courier, monospace; line-height: 1.5;"><code><span style="color: #d73a49;">const</span> <span style="color: #6f42c1;">gervoOutils</span> = {
     <span style="color: #0052cc;">type</span>: <span style="color: #032f62;">"Boîte à outils locale"</span>,
     <span style="color: #0052cc;">security</span>: <span style="color: #032f62;">"100% Client-Side"</span>,
     <span style="color: #0052cc;">features</span>: [
@@ -102,6 +103,7 @@
                 </div>
             </div>
         </section>
+        <div id="A_proposRepere"></div>
         <section style="flex-direction: column;" id="A_propos">
             <div class="Seperation"></div>
             <div class="apropos-contenu">
@@ -113,8 +115,7 @@
                             <p>Une vision moderne de l'ingénierie web.</p>
                         </div>
                     </div>
-
-                    <div class="philosophie-sticky-content glass-box box-animee" id="MaPhilosophie">
+                    <div class="philosophie-sticky-content glass-box box-animee Animation" id="MaPhilosophie">
                         <div class="philosophie-texte">
                             <h3>MA PHILOSOPHIE</h3>
                             <h1>Transformer la complexité en simplicité élégante</h1>
@@ -135,14 +136,51 @@
 
                 </div>
             </div>
-            <div id="A_proposRepere"></div>
+            <div class="Animation glass-box box-animee" id="Lesoucisdudetail">
+                <div class="Lesoucisdudetail-texte">
+                    <h3>LE SOUCI DU DÉTAIL</h3>
+                    <h1>Chaques détail compte !</h1>
+                    <br>
+                    <p>
+                        L'image à son importance ! Chaques effet attire le regard de vos visiteurs sur ce qui est
+                        <span class="battementCoeur">important</span>.
+                    </p>
+                    <br>
+                </div>
+            </div>
         </section>
+
+        <section style="flex-direction: column;" id="Projets">
+            <div class="Seperation"></div>
+            <div class="apropos-contenu">
+
+                <div class="text titre-sticky-independant">
+                    <div class="titre">
+                        <h1>Mes Projets</h1>
+                        <p>Découvrez quelques-uns de mes projets</p>
+                    </div>
+                </div>
+
+                <div class="philosophie-sticky-content glass-box box-animee Animation" id="GervoTransfert">
+                    <div class="philosophie-texte">
+                        <h3 style="margin: 0;">APPLICATION GERVO TRANSFERT</h3>
+                        <p>Partager un dossier entre plusieurs appareil sur votre réseau local.</p>
+                    </div>
+
+                    <div class="DemoGervoTransfert">
+                        <canvas id="DemoGervoTransfert"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div style="height: 800px;"></div>
 
     </div>
     <script src="/JS/fond.js"></script>
     <script src="/JS/scroll.js"></script>
     <script src="/JS/modal.js"></script>
-    <script src="/JS/Ordinateur.js"></script>
+    <script src="/JS/anime.js"></script>
 </body>
 
 </html>

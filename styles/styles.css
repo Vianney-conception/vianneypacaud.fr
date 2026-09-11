@@ -23,16 +23,18 @@
     --rougeRupture: #e61515;
     --couleurMiel: #E4A60A;
     --couleurMiel-Fonce: rgb(66, 57, 26);
-    --ombre1: rgba(45, 49, 49, 0.15) 0px 2px 8px 0px;
-    --ombre1Hover: var(--vert) 0px 2px 8px 0px;
-    --ombre2: rgba(45, 49, 49, 0.1) 0px 4px 12px 0px;
+    --ombre1: rgba(45, 49, 49, 0.15) 0 2px 8px 0;
+    --ombre1Hover: var(--vert) 0 2px 8px 0;
+    --ombre2: rgba(45, 49, 49, 0.1) 0 4px 12px 0;
     --ombreForte: 0 0 20px 4px rgb(0 0 0 / 45%);
-    --ombreMoyenne: 0 0 16px 0px rgb(0 0 0 / 35%);
+    --ombreMoyenne: 0 0 16px 0 rgb(0 0 0 / 35%);
     --degrade-vert-bleu: linear-gradient(-90deg, var(--bleuModeClaire) 0%, var(--vertModeClaire) 76%);
 }
+
 html {
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;
 }
+
 body {
     margin: 0;
     padding: 0;
@@ -40,6 +42,7 @@ body {
     min-height: 200vh;
     background-color: var(--grisClair);
 }
+
 header.scroll {
     width: 90%;
     max-width: 850px;
@@ -217,6 +220,7 @@ button:hover {
     color: transparent;
     -webkit-text-fill-color: transparent;
 }
+
 section {
     max-width: 1000px;
     margin: auto;
@@ -272,7 +276,7 @@ section .illustration .BoiteCodeInteractif {
     width: 100%;
     height: 40px;
     position: relative;
-    top: 0px;
+    top: 0;
     padding: 5px;
     align-items: center;
     padding-left: 8px;
@@ -335,14 +339,33 @@ pre.on {
     width: 60%;
 }
 
-#MaPhilosophie {
-    position: sticky !important;
-    top: calc(50vh - 210px) !important;
+.philosophie-scroll-zone {
+    height: auto;
+    position: relative;
     width: 100%;
-    height: 500px !important;
-    margin-left: 10px;
-    margin-top: 40px;
-    padding: 10px 10px 20px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 5px;
+}
+
+.titre-sticky-independant {
+    position: static !important;
+    z-index: 91;
+    width: 100% !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+#MaPhilosophie,#Lesoucisdudetail,#GervoTransfert {
+    position: static !important;
+    z-index: 90;
+    width: 100%;
+    min-height: 500px;
+    margin-left: 0;
+    margin-top: 20px !important;
+    padding: 20px 30px;
     border-radius: 1.5rem;
     box-shadow: unset;
     border: none;
@@ -352,8 +375,11 @@ pre.on {
     justify-content: space-between !important;
     box-sizing: border-box !important;
 }
+#Lesoucisdudetail,#GervoTransfert {
+min-height: unset;
+}
 
-#MaPhilosophie::before {
+.AnimeBord::before {
     content: "";
     position: absolute;
     inset: 0;
@@ -374,7 +400,7 @@ pre.on {
 
 #GlobalSite {
     width: 100%;
-    transition: position 0.3s ease; 
+    transition: position 0.3s ease;
 }
 
 #GlobalSite.is-frozen {
@@ -383,14 +409,18 @@ pre.on {
     left: 0;
     width: 100%;
     height: 100vh;
-    overflow: hidden; 
-    pointer-events: none; 
+    overflow: hidden;
+    pointer-events: none;
 }
 
 #GlobalSite.is-frozen * {
     pointer-events: auto;
 }
 
+
+#Lesoucisdudetail{
+    margin-top: 50px;
+}
 @keyframes rotationBordure {
     to {
         --angle: 360deg;
@@ -405,12 +435,6 @@ h3 {
 }
 
 .apropos-contenu {
-    width: 100%;
-}
-
-.philosophie-scroll-zone {
-    height: 250vh; 
-    position: relative;
     width: 100%;
 }
 
@@ -434,22 +458,91 @@ h3 {
     object-fit: contain;
 }
 
-.titre-sticky-independant {
-    position: sticky !important;
-    top: calc(50vh - 350px) !important; 
-    z-index: 90;
-    width: 100% !important;
-    margin-bottom: 20px; 
+#Lesoucisdudetail canvas.sand-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+#Lesoucisdudetail > *:not(canvas) {
+    position: relative;
+    z-index: 2;
+}
+
+.battementCoeur {
+    display: inline-block;
+    transform-origin: center center;
+    transition: color 0.2s ease;
+    animation: EffetbattementCoeur 1.6s ease-in-out infinite;
+}
+
+@keyframes EffetbattementCoeur {
+    0% {
+        transform: scale(1);
+        color: inherit;
+    }
+    14% {
+        transform: scale(1.15);
+        color: var(--bleuModeClaire);
+    }
+    28% {
+        transform: scale(1.04);
+        color: var(--bleuModeClaire);
+    }
+    42% {
+        transform: scale(1.2);
+        color: #0ea5e9; 
+    }
+    60% {
+        transform: scale(1);
+        color: inherit;
+    }
+    100% {
+        transform: scale(1);
+        color: inherit;
+    }
 }
 
 @media (max-width: 900px) {
+    .philosophie-scroll-zone {
+        height: auto;
+        gap: 5px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .titre-sticky-independant {
+        position: relative !important;
+        top: auto !important;
+        width: 100% !important;
+        margin-bottom: 0 !important;
+    }
+
+    #MaPhilosophie {
+        position: relative !important;
+        top: auto !important;
+        height: auto !important;
+        flex-direction: column-reverse;
+        margin-left: 0;
+        margin-top: 0 !important;
+        padding: 0 20px 30px 20px;
+    }
+
+    .philosophie-laptop {
+        margin-top: 0;
+        width: 100%;
+        height: 250px;
+    }
+
     section {
         flex-direction: column;
         align-items: center;
     }
-    .philosophie-scroll-zone {
-        height: 180vh;
-    }
+
     .philosophie-sticky-content {
         flex-direction: column;
         justify-content: center;
@@ -457,13 +550,9 @@ h3 {
         top: 10vh;
         padding: 20px;
     }
+
     .philosophie-texte {
         width: 100%;
-    }
-    .philosophie-laptop {
-        width: 100%;
-        height: 250px;
-        margin-top: 20px;
     }
 }
 
@@ -485,6 +574,14 @@ h3 {
     pre.on {
         display: block;
         font-size: 0.6rem;
+    }
+
+    #A_propos h1 {
+        font-size: 2rem;
+    }
+
+    #A_propos p {
+        font-size: 1.1rem;
     }
 }
 
