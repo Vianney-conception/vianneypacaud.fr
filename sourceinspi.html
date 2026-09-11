@@ -766,6 +766,8 @@
                 ticking = true;
             }
         });
+
+        // Effet dynamique de lueur de souris (Mouse Glow)
         document.querySelectorAll('.interactive-card').forEach(card => {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
