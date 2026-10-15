@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparaison Avant / Après</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 40px;
+            background-color: #121212;
+            color: #ffffff;
+            font-family: system-ui, -apple-system, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .img-comparator {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            aspect-ratio: 4 / 3;
+            user-select: none;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .img-comparator img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+        }
+
+        /* 1. Image détourée en fond (visible à droite) */
+        .img-comparator .img-cut {
+            z-index: 1;
+        }
+
+        /* 2. Image pleine au-dessus (visible à gauche, rognée par la droite) */
+        .img-comparator .img-full {
+            z-index: 2;
+            clip-path: inset(0 50% 0 0);
+        }
+
+        /* Barre et poignée du slider */
+        .comparator-slider {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 4px;
+            background: #ffffff;
+            z-index: 3;
+            cursor: ew-resize;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transform: translateX(-50%);
+        }
+
+        .comparator-slider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23333333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 7-5 5 5 5'/%3E%3Cpath d='m15 7 5 5-5 5'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Glissez pour comparer</h1>
+
+    <div class="img-comparator" id="comparator">
+        <!-- Image détourée en fond (droite) -->
+        <img src="/img/exempleDetour.webp" alt="Détouré" class="img-cut">
+        
+        <!-- Image pleine au-dessus (gauche) -->
+        <img src="/img/exempleNonDetour.webp" alt="Non détouré" class="img-full" id="imgFull">
+        
+        <!-- Curseur -->
+        <div class="comparator-slider" id="sliderBar"></div>
+    </div>
+
+    <script>
+        const comparator = document.getElementById('comparator');
+        const imgFull = document.getElementById('imgFull');
+        const sliderBar = document.getElementById('sliderBar');
+
+        let isDragging = false;
+
+        function updateSlider(clientX) {
+            const rect = comparator.getBoundingClientRect();
+            let offsetX = clientX - rect.left;
+
+            if (offsetX < 0) offsetX = 0;
+            if (offsetX > rect.width) offsetX = rect.width;
+
+            const percentage = (offsetX / rect.width) * 100;
+            const rightClip = 100 - percentage;
+
+            // Déplacement de la barre
+            sliderBar.style.left = percentage + '%';
+            
+            // On rogne l'image pleine par la droite pour laisser place à l'image détourée en dessous
+            imgFull.style.clipPath = `inset(0 ${rightClip}% 0 0)`;
+        }
+
+        // Événements Souris & Tactiles
+        sliderBar.addEventListener('mousedown', (e) => { isDragging = true; e.preventDefault(); });
+        window.addEventListener('mouseup', () => isDragging = false);
+        window.addEventListener('mousemove', (e) => { if (isDragging) updateSlider(e.clientX); });
+
+        sliderBar.addEventListener('touchstart', (e) => { isDragging = true; e.preventDefault(); });
+        window.addEventListener('touchend', () => isDragging = false);
+        window.addEventListener('touchmove', (e) => { if (isDragging) updateSlider(e.touches[0].clientX); });
+
+        comparator.addEventListener('click', (e) => updateSlider(e.clientX));
+    </script>
+
+</body>
+</html>

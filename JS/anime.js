@@ -13,14 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let animationFrameId = null;
     let lastDrawTime = 0;
     let hasPlayed = false;
-
-    // Nommage : 1 -> "0001"
     const getImagePath = (index) => {
         const num = String(index).padStart(4, '0');
         return `/AnimationOrdinateur/img4/${num}.png`;
     };
-
-    // Dessine l'image demandée
     const drawFrame = (frameIndex) => {
         const img = images[frameIndex];
         if (!img || !img.complete) return;
@@ -33,8 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
     };
-
-    // Réinitialise à 0001 uniquement quand le canvas est totalement hors de l'écran
     const resetToFirstFrame = () => {
         if (animationFrameId) {
             cancelAnimationFrame(animationFrameId);
@@ -42,10 +36,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         currentFrame = 0;
         hasPlayed = false;
-        drawFrame(0); // Affiche 0001.png
+        drawFrame(0);
     };
 
-    // Boucle d'animation jusqu'à 0062
     const playAnimation = (timestamp) => {
         if (!lastDrawTime) lastDrawTime = timestamp;
         const delta = timestamp - lastDrawTime;
@@ -165,6 +158,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Création dynamique du canvas
     const canvas = document.createElement('canvas');
     canvas.classList.add('sand-canvas');
+    // Empêche le défilement de la page sur mobile lorsqu'on glisse le doigt
+    canvas.style.touchAction = 'none';
     container.appendChild(canvas);
     const ctx = canvas.getContext('2d');
 
@@ -191,6 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let grains = [];
     let lastX = null;
     let lastY = null;
+    let isInteracting = false; // Permet de savoir si un doigt/clic est enfoncé ou si la souris survole
 
     // Dessine le creux du sillon (ombre intérieure + liseré clair sur le bord)
     function drawTrench(x, y, radius = 18) {
@@ -226,11 +222,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Événement déplacement de souris
-    container.addEventListener('mousemove', (e) => {
+    function handleMove(clientX, clientY) {
         const rect = container.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+        const x = clientX - rect.left;
+        const y = clientY - rect.top;
 
         if (lastX !== null && lastY !== null) {
             // Interpolation pour relier les points si le mouvement est rapide
@@ -250,12 +245,31 @@ document.addEventListener('DOMContentLoaded', () => {
         addSandGrains(x, y, 3);
         lastX = x;
         lastY = y;
-    });
+    }
 
-    container.addEventListener('mouseleave', () => {
+    function resetPointer() {
         lastX = null;
         lastY = null;
+        isInteracting = false;
+    }
+
+    // Gestion universelle (Souris + Écran tactile + Stylet)
+    container.addEventListener('pointerdown', (e) => {
+        isInteracting = true;
+        handleMove(e.clientX, e.clientY);
     });
+
+    container.addEventListener('pointermove', (e) => {
+        // Au toucher/stylet on ne dessine que si l'écran est touché
+        // À la souris (mouse), on dessine aussi lors d'un simple survol
+        if (e.pointerType === 'mouse' || isInteracting) {
+            handleMove(e.clientX, e.clientY);
+        }
+    });
+
+    container.addEventListener('pointerup', resetPointer);
+    container.addEventListener('pointercancel', resetPointer);
+    container.addEventListener('pointerleave', resetPointer);
 
     // Boucle d'animation : estompe le sable petit à petit et anime les grains
     function render() {

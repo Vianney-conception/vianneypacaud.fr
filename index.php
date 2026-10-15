@@ -155,20 +155,41 @@
             <div class="apropos-contenu">
 
                 <div class="text titre-sticky-independant">
-                    <div class="titre">
+                    <div class="titre" id="Projet">
                         <h1>Mes Projets</h1>
                         <p>Découvrez quelques-uns de mes projets</p>
                     </div>
                 </div>
 
-                <div class="philosophie-sticky-content glass-box box-animee Animation" id="GervoTransfert">
-                    <div class="philosophie-texte">
-                        <h3 style="margin: 0;">APPLICATION GERVO TRANSFERT</h3>
-                        <p>Partager un dossier entre plusieurs appareil sur votre réseau local.</p>
+                <div class="philosophie-sticky-content glass-box box-animee Animation" id="GervoDetour">
+                    <div class="philosophie-texte" style="width: 100%;">
+                        <h3 style="margin: 0;">CREATION D'UNE API</h3>
+                        <h1 style="margin-top : 3px;">Deploiment d'une api de détourage d'images.</H1>
                     </div>
+                    <div class="DemoGervoDetourAPI">
+                        <div class="img-comparator" id="comparator">
+                            <img src="/img/exempleDetour.webp" alt="Détouré" class="img-cut">
+                            <img src="/img/exempleNonDetour.webp" alt="Non détouré" class="img-full" id="imgFull">
+                            <div class="comparator-slider" id="sliderBar"></div>
+                        </div>
+                        <?php
+                        $ch = curl_init('https://detour.api.gervo.fr/health');
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        curl_setopt($ch, CURLOPT_TIMEOUT, 3); // Timeout de 3 secondes pour ne pas bloquer la page
+                        $response = curl_exec($ch);
+                        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                        curl_close($ch);
+                        $data = $response ? json_decode($response, true) : null;
 
-                    <div class="DemoGervoTransfert">
-                        <canvas id="DemoGervoTransfert"></canvas>
+                        // Condition de vérification
+                        if ($httpCode === 200 && isset($data['status']) && $data['status'] === 'available') {
+                            ?>
+                            <?php
+                        } else {
+                            // L'API est injoignable ou renvoie une erreur
+                            echo "<p>API indisponible.</p>";
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
@@ -181,6 +202,7 @@
     <script src="/JS/scroll.js"></script>
     <script src="/JS/modal.js"></script>
     <script src="/JS/anime.js"></script>
+    <script src="/JS/detour.js"></script>
 </body>
 
 </html>
