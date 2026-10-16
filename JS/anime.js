@@ -151,151 +151,85 @@ document.addEventListener('DOMContentLoaded', () => {
     targets.forEach((target) => observer.observe(target));
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    const container = document.getElementById('Lesoucisdudetail');
-    if (!container) return;
+function gommeMagique(selecteur, { rayon = 20, douceur = 0.6, echelle = 0.5 } = {}) {
+    const boite = document.querySelector(selecteur);
+    if (!boite) return;
 
-    // Création dynamique du canvas
+    // Calque qui porte le fond + le flou
+    const fond = document.createElement('div');
+    fond.className = 'gomme-fond';
+    boite.prepend(fond);
+
+    // Canvas de masque (résolution réduite pour rester fluide)
     const canvas = document.createElement('canvas');
-    canvas.classList.add('sand-canvas');
-    // Empêche le défilement de la page sur mobile lorsqu'on glisse le doigt
-    canvas.style.touchAction = 'none';
-    container.appendChild(canvas);
     const ctx = canvas.getContext('2d');
 
-    let width = 0;
-    let height = 0;
+    let dernier = null;
+    let enAttente = false;
 
-    const resize = () => {
-        const rect = container.getBoundingClientRect();
-        // Support Retina / haute résolution
-        const dpr = window.devicePixelRatio || 1;
-        width = rect.width;
-        height = rect.height;
-        canvas.width = width * dpr;
-        canvas.height = height * dpr;
-        canvas.style.width = width + 'px';
-        canvas.style.height = height + 'px';
-        ctx.scale(dpr, dpr);
-    };
+    function appliquerMasque() {
+        const url = `url(${canvas.toDataURL()})`;
+        fond.style.webkitMaskImage = url;
+        fond.style.maskImage = url;
+    }
 
-    window.addEventListener('resize', resize);
-    resize();
+    function planifierMasque() {
+        if (enAttente) return;
+        enAttente = true;
+        requestAnimationFrame(() => {
+            enAttente = false;
+            appliquerMasque();
+        });
+    }
 
-    // Particules de sable projetées
-    let grains = [];
-    let lastX = null;
-    let lastY = null;
-    let isInteracting = false; // Permet de savoir si un doigt/clic est enfoncé ou si la souris survole
+    function reinitialiser() {
+        const r = boite.getBoundingClientRect();
+        canvas.width = Math.max(1, Math.round(r.width * echelle));
+        canvas.height = Math.max(1, Math.round(r.height * echelle));
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.fillStyle = '#000';               // opaque = fond visible
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        appliquerMasque();
+    }
 
-    // Dessine le creux du sillon (ombre intérieure + liseré clair sur le bord)
-    function drawTrench(x, y, radius = 18) {
-        ctx.save();
-        
-        // 1. Sillon principal (ombre douce couleur sable foncé)
-        const grad = ctx.createRadialGradient(x, y, 0, x, y, radius);
-        grad.addColorStop(0, 'rgba(175, 145, 105, 0.35)'); // Fond du sillon
-        grad.addColorStop(0.6, 'rgba(215, 195, 160, 0.2)');
-        grad.addColorStop(0.85, 'rgba(255, 255, 255, 0.25)'); // Bourrelet clair expulsé
-        grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
-
-        ctx.fillStyle = grad;
+    function tampon(x, y) {
+        const r = rayon * echelle;
+        const g = ctx.createRadialGradient(x, y, r * (1 - douceur), x, y, r);
+        g.addColorStop(0, 'rgba(0,0,0,1)');
+        g.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = g;
         ctx.beginPath();
-        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.arc(x, y, r, 0, Math.PI * 2);
         ctx.fill();
-        ctx.restore();
     }
 
-    // Ajoute quelques petits grains de sable autour du mouvement
-    function addSandGrains(x, y, count = 4) {
-        for (let i = 0; i < count; i++) {
-            const angle = Math.random() * Math.PI * 2;
-            const dist = 12 + Math.random() * 16;
-            grains.push({
-                x: x + Math.cos(angle) * dist,
-                y: y + Math.sin(angle) * dist,
-                size: Math.random() * 2 + 0.8,
-                alpha: 0.6 + Math.random() * 0.4,
-                color: Math.random() > 0.4 ? '180, 150, 110' : '235, 220, 190',
-                life: 1.0 // Durée de vie du grain
-            });
-        }
-    }
-
-    function handleMove(clientX, clientY) {
-        const rect = container.getBoundingClientRect();
-        const x = clientX - rect.left;
-        const y = clientY - rect.top;
-
-        if (lastX !== null && lastY !== null) {
-            // Interpolation pour relier les points si le mouvement est rapide
-            const dist = Math.hypot(x - lastX, y - lastY);
-            const step = 4; // Pas de lissage
-            const count = Math.ceil(dist / step);
-
-            for (let i = 0; i < count; i++) {
-                const interpX = lastX + (x - lastX) * (i / count);
-                const interpY = lastY + (y - lastY) * (i / count);
-                drawTrench(interpX, interpY, 16);
+    function gommer(x, y) {
+        ctx.globalCompositeOperation = 'destination-out'; // rend transparent
+        if (dernier) {
+            // interpolation pour un trait continu même si la souris va vite
+            const dx = x - dernier.x;
+            const dy = y - dernier.y;
+            const pas = Math.max(1, (rayon * echelle) / 4);
+            const n = Math.ceil(Math.hypot(dx, dy) / pas);
+            for (let i = 1; i <= n; i++) {
+                tampon(dernier.x + (dx * i) / n, dernier.y + (dy * i) / n);
             }
         } else {
-            drawTrench(x, y, 16);
+            tampon(x, y);
         }
-
-        addSandGrains(x, y, 3);
-        lastX = x;
-        lastY = y;
+        dernier = { x, y };
+        planifierMasque();
     }
 
-    function resetPointer() {
-        lastX = null;
-        lastY = null;
-        isInteracting = false;
-    }
-
-    // Gestion universelle (Souris + Écran tactile + Stylet)
-    container.addEventListener('pointerdown', (e) => {
-        isInteracting = true;
-        handleMove(e.clientX, e.clientY);
+    boite.addEventListener('pointermove', (e) => {
+        const r = boite.getBoundingClientRect();
+        gommer((e.clientX - r.left) * echelle, (e.clientY - r.top) * echelle);
     });
 
-    container.addEventListener('pointermove', (e) => {
-        // Au toucher/stylet on ne dessine que si l'écran est touché
-        // À la souris (mouse), on dessine aussi lors d'un simple survol
-        if (e.pointerType === 'mouse' || isInteracting) {
-            handleMove(e.clientX, e.clientY);
-        }
-    });
+    boite.addEventListener('pointerleave', () => { dernier = null; });
 
-    container.addEventListener('pointerup', resetPointer);
-    container.addEventListener('pointercancel', resetPointer);
-    container.addEventListener('pointerleave', resetPointer);
+    // Initialise le canvas, et le recrée si la boîte change de taille
+    new ResizeObserver(reinitialiser).observe(boite);
+}
 
-    // Boucle d'animation : estompe le sable petit à petit et anime les grains
-    function render() {
-        // Estompe très léger et continu (rebouchage doux façon vent marin)
-        ctx.save();
-        ctx.globalCompositeOperation = 'destination-out';
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.018)'; 
-        ctx.fillRect(0, 0, width, height);
-        ctx.restore();
-
-        // Rendu des grains de sable
-        for (let i = grains.length - 1; i >= 0; i--) {
-            const g = grains[i];
-            ctx.fillStyle = `rgba(${g.color}, ${g.alpha * g.life})`;
-            ctx.beginPath();
-            ctx.arc(g.x, g.y, g.size, 0, Math.PI * 2);
-            ctx.fill();
-
-            g.life -= 0.008; // Vitesse de disparition des grains
-            if (g.life <= 0) {
-                grains.splice(i, 1);
-            }
-        }
-
-        requestAnimationFrame(render);
-    }
-
-    requestAnimationFrame(render);
-});
+gommeMagique('#Lesoucisdudetail', { rayon: 60, douceur: 0.6 });

@@ -165,6 +165,18 @@
                     <div class="philosophie-texte" style="width: 100%;">
                         <h3 style="margin: 0;">CREATION D'UNE API</h3>
                         <h1 style="margin-top : 3px;">Deploiment d'une api de détourage d'images.</H1>
+                        <p>J'ai déployé cette solution à partir de modèles de détourage open source tels que U2-Net. L'image est traitée sur la mémoire RAM et n'est donc pas enregistrée. 
+                            <?php
+                            $ch = curl_init('https://detour.api.gervo.fr/health');
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            curl_setopt($ch, CURLOPT_TIMEOUT, 3);
+                            $response = curl_exec($ch);
+                            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                            curl_close($ch);
+                            $data = $response ? json_decode($response, true) : null;
+                            if ($httpCode === 200 && isset($data['status']) && $data['status'] === 'available') {
+                                echo '';
+                            } ?></p>
                     </div>
                     <div class="DemoGervoDetourAPI">
                         <div class="img-comparator" id="comparator">
@@ -172,24 +184,6 @@
                             <img src="/img/exempleNonDetour.webp" alt="Non détouré" class="img-full" id="imgFull">
                             <div class="comparator-slider" id="sliderBar"></div>
                         </div>
-                        <?php
-                        $ch = curl_init('https://detour.api.gervo.fr/health');
-                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                        curl_setopt($ch, CURLOPT_TIMEOUT, 3); // Timeout de 3 secondes pour ne pas bloquer la page
-                        $response = curl_exec($ch);
-                        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                        curl_close($ch);
-                        $data = $response ? json_decode($response, true) : null;
-
-                        // Condition de vérification
-                        if ($httpCode === 200 && isset($data['status']) && $data['status'] === 'available') {
-                            ?>
-                            <?php
-                        } else {
-                            // L'API est injoignable ou renvoie une erreur
-                            echo "<p>API indisponible.</p>";
-                        }
-                        ?>
                     </div>
                 </div>
             </div>
