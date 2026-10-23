@@ -1,8 +1,6 @@
 (function() {
-    // 1. CRÉATION ET INJECTION DES STYLES CSS
     const style = document.createElement('style');
     style.textContent = `
-        /* Grille de fond fixe et infinie */
         .grille-fond {
             position: fixed;
             top: 0;
@@ -42,24 +40,16 @@
         }
     `;
     document.head.appendChild(style);
-
-    // 2. AJOUT DE LA GRILLE DANS LA PAGE
     const grille = document.createElement('div');
     grille.classList.add('grille-fond');
     document.body.prepend(grille);
-
-    // 3. EFFET PARALLAXE
     window.addEventListener('scroll', () => {
         const offset = window.scrollY;
         grille.style.backgroundPosition = `0px ${-(offset * 0.3)}px`;
     });
-
-    // 4. EFFET DE SOUFFLE CHAOTIQUE AU CLIC (CORRIGÉ POUR LE SCROLL)
     const couleursDisponibles = ['#002060', '#007211'];
 
     document.addEventListener('click', (e) => {
-        // --- COORDONNÉES CORRIGÉES ---
-        // On utilise clientX/Y pour avoir la position par rapport à la zone visible (Viewport)
         const mouseX = e.clientX;
         const mouseY = e.clientY;
 

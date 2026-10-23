@@ -151,30 +151,96 @@ document.addEventListener('DOMContentLoaded', () => {
     targets.forEach((target) => observer.observe(target));
 });
 
-function gommeMagique(selecteur, { rayon = 20, douceur = 0.6, echelle = 0.5 } = {}) {
+function gommeMagique(selecteur, { rayon = 40, douceur = 0.6, echelle = 0.5, vitesseReformation = 0.015 } = {}) {
     const boite = document.querySelector(selecteur);
     if (!boite) return;
 
-    // Calque qui porte le fond + le flou
+    // Empêche le défilement tactile sur l'élément
+    boite.style.touchAction = 'none';
+
+    // Détection de Firefox
+    const estFirefox = navigator.userAgent.toLowerCase().includes('firefox');
+
+    let estVisible = false;
+
+    // ==========================================
+    // EFFET POUR FIREFOX : Effet Projecteur (Spotlight)
+    // ==========================================
+    if (estFirefox) {
+        boite.style.position = 'relative';
+        boite.style.overflow = 'hidden';
+
+        const spotlight = document.createElement('div');
+        spotlight.className = 'firefox-spotlight';
+        spotlight.style.position = 'absolute';
+        spotlight.style.inset = '0';
+        spotlight.style.pointerEvents = 'none';
+        spotlight.style.transition = 'opacity 0.3s ease';
+        spotlight.style.opacity = '0';
+        spotlight.style.background = 'radial-gradient(circle var(--rayon, 100px) at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.8) 0%, transparent 100%)';
+        boite.appendChild(spotlight);
+
+        const handlePointerMove = (e) => {
+            if (!estVisible) return;
+            const r = boite.getBoundingClientRect();
+            const x = e.clientX - r.left;
+            const y = e.clientY - r.top;
+            
+            spotlight.style.setProperty('--x', `${x}px`);
+            spotlight.style.setProperty('--y', `${y}px`);
+            spotlight.style.setProperty('--rayon', `${rayon * 2.5}px`);
+            spotlight.style.opacity = '1';
+        };
+
+        const handlePointerLeave = () => {
+            spotlight.style.opacity = '0';
+        };
+
+        boite.addEventListener('pointermove', handlePointerMove);
+        boite.addEventListener('pointerleave', handlePointerLeave);
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                estVisible = entry.isIntersecting;
+                if (!estVisible) spotlight.style.opacity = '0';
+            });
+        }, { threshold: 0 });
+
+        observer.observe(boite);
+        return;
+    }
+
+    // ==========================================
+    // EFFET POUR CHROME / SAFARI / EDGE
+    // ==========================================
     const fond = document.createElement('div');
     fond.className = 'gomme-fond';
+    fond.style.touchAction = 'none';
     boite.prepend(fond);
 
-    // Canvas de masque (résolution réduite pour rester fluide)
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
 
     let dernier = null;
     let enAttente = false;
+    let actifJusqua = 0;
+    let boucleActive = false;
+    let rafId = null;
 
     function appliquerMasque() {
+        if (!estVisible) return;
         const url = `url(${canvas.toDataURL()})`;
         fond.style.webkitMaskImage = url;
         fond.style.maskImage = url;
     }
 
+    function retirerMasque() {
+        fond.style.webkitMaskImage = 'none';
+        fond.style.maskImage = 'none';
+    }
+
     function planifierMasque() {
-        if (enAttente) return;
+        if (enAttente || !estVisible) return;
         enAttente = true;
         requestAnimationFrame(() => {
             enAttente = false;
@@ -187,9 +253,11 @@ function gommeMagique(selecteur, { rayon = 20, douceur = 0.6, echelle = 0.5 } = 
         canvas.width = Math.max(1, Math.round(r.width * echelle));
         canvas.height = Math.max(1, Math.round(r.height * echelle));
         ctx.globalCompositeOperation = 'source-over';
-        ctx.fillStyle = '#000';               // opaque = fond visible
+        ctx.fillStyle = '#000'; 
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        appliquerMasque();
+        
+        if (estVisible) appliquerMasque();
+        else retirerMasque();
     }
 
     function tampon(x, y) {
@@ -204,9 +272,9 @@ function gommeMagique(selecteur, { rayon = 20, douceur = 0.6, echelle = 0.5 } = 
     }
 
     function gommer(x, y) {
-        ctx.globalCompositeOperation = 'destination-out'; // rend transparent
+        if (!estVisible) return;
+        ctx.globalCompositeOperation = 'destination-out';
         if (dernier) {
-            // interpolation pour un trait continu même si la souris va vite
             const dx = x - dernier.x;
             const dy = y - dernier.y;
             const pas = Math.max(1, (rayon * echelle) / 4);
@@ -221,15 +289,68 @@ function gommeMagique(selecteur, { rayon = 20, douceur = 0.6, echelle = 0.5 } = 
         planifierMasque();
     }
 
-    boite.addEventListener('pointermove', (e) => {
+    function reveiller() {
+        if (!estVisible) return;
+        actifJusqua = performance.now() + (4.6 / vitesseReformation) * 16.7;
+        if (!boucleActive) {
+            boucleActive = true;
+            rafId = requestAnimationFrame(boucleReformation);
+        }
+    }
+
+    function boucleReformation(t) {
+        if (!estVisible) {
+            boucleActive = false;
+            return;
+        }
+        if (t > actifJusqua) {
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            appliquerMasque();
+            boucleActive = false;
+            return;
+        }
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.fillStyle = `rgba(0, 0, 0, ${vitesseReformation})`;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        planifierMasque();
+        rafId = requestAnimationFrame(boucleReformation);
+    }
+
+    const handlePointerMove = (e) => {
         const r = boite.getBoundingClientRect();
         gommer((e.clientX - r.left) * echelle, (e.clientY - r.top) * echelle);
-    });
+        reveiller();
+    };
 
-    boite.addEventListener('pointerleave', () => { dernier = null; });
+    const handlePointerLeave = () => { dernier = null; };
 
-    // Initialise le canvas, et le recrée si la boîte change de taille
-    new ResizeObserver(reinitialiser).observe(boite);
+    boite.addEventListener('pointermove', handlePointerMove);
+    boite.addEventListener('pointerleave', handlePointerLeave);
+
+    const resizeObserver = new ResizeObserver(reinitialiser);
+    resizeObserver.observe(boite);
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                estVisible = true;
+                reinitialiser();
+            } else {
+                estVisible = false;
+                if (rafId) cancelAnimationFrame(rafId);
+                boucleActive = false;
+                dernier = null;
+                reinitialiser();
+                retirerMasque();
+            }
+        });
+    }, { threshold: 0 });
+
+    observer.observe(boite);
 }
 
-gommeMagique('#Lesoucisdudetail', { rayon: 60, douceur: 0.6 });
+// Utilisation
+gommeMagique('#Lesoucisdudetail', { rayon: 40, douceur: 0.6, vitesseReformation: 0.004 });
