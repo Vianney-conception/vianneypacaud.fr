@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animation de chargement Canvas</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #0d1117;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: sans-serif;
+    }
+    canvas {
+      background: transparent;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="loaderCanvas" width="400" height="400"></canvas>
+
+  <script>
+    const canvas = document.getElementById('loaderCanvas');
+    const ctx = canvas.getContext('2d');
+
+    const CENTER_X = canvas.width / 2;
+    const CENTER_Y = canvas.height / 2;
+    const RADIUS = 120;
+    const BALL_RADIUS = 9;
+    const TOTAL_ELEMENTS = 16;
+
+    // Vitesses
+    const GREEN_SPEED   = 0.006;  // Vitesse lente / standard
+    const TRAIL_SPEED   = 0.018;  // Vitesse du trait
+    const BLUE_SPEED    = 0.032;  // Vitesse d'accélération des bleues
+    const EJECT_SPEED   = 0.040;  // Vitesse d'éjection des billes à 1h
+
+    const BLUE_COLOR = '#0077ff';
+    const GREEN_COLOR = '#00e676';
+
+    let entities = [];
+    let state = 'chasing'; // 'chasing', 'spinning', 'separating', 'uniform_loop'
+    let fullSegment = null;
+    let spinCount = 0;
+    let uniformSpinCount = 0;
+    let detachTimer = 0;
+
+    function init() {
+      entities = [];
+      state = 'chasing';
+      fullSegment = null;
+      spinCount = 0;
+      uniformSpinCount = 0;
+      detachTimer = 0;
+
+      const angleStep = (Math.PI * 2) / TOTAL_ELEMENTS;
+
+      for (let i = 0; i < TOTAL_ELEMENTS; i++) {
+        const angle = i * angleStep;
+        const isBlue = i >= 4 && i < 12;
+
+        entities.push({
+          startAngle: angle,
+          endAngle: angle,
+          colorStart: isBlue ? BLUE_COLOR : GREEN_COLOR,
+          colorEnd: isBlue ? BLUE_COLOR : GREEN_COLOR,
+          isBlue: isBlue,
+          isSegment: false,
+          speed: GREEN_SPEED
+        });
+      }
+    }
+
+    function update() {
+      if (state === 'chasing') {
+        // 1. Déplacement avec accélération des bleues
+        for (let i = 0; i < entities.length; i++) {
+          const e = entities[i];
+          let speed = e.isSegment ? TRAIL_SPEED : (e.isBlue ? BLUE_SPEED : GREEN_SPEED);
+
+          e.startAngle = (e.startAngle + speed) % (Math.PI * 2);
+          e.endAngle = (e.endAngle + speed) % (Math.PI * 2);
+        }
+
+        // 2. Fusion des éléments adjacents
+        for (let i = 0; i < entities.length; i++) {
+          const current = entities[i];
+          const nextIndex = (i + 1) % entities.length;
+          const next = entities[nextIndex];
+
+          let dist = next.startAngle - current.endAngle;
+          if (dist < 0) dist += Math.PI * 2;
+
+          const contactThreshold = (BALL_RADIUS * 2.5) / RADIUS;
+
+          if (dist <= contactThreshold) {
+            const mergedSegment = {
+              startAngle: current.startAngle,
+              endAngle: next.endAngle,
+              colorStart: current.colorStart,
+              colorEnd: next.colorEnd,
+              isSegment: true
+            };
+
+            if (nextIndex > i) {
+              entities.splice(i, 2, mergedSegment);
+            } else {
+              entities.splice(i, 1, mergedSegment);
+              entities.splice(0, 1);
+            }
+
+            if (entities.length === 1) {
+              fullSegment = entities[0];
+              state = 'spinning';
+              spinCount = 0;
+            }
+            break;
+          }
+        }
+      } 
+      else if (state === 'spinning' || state === 'separating') {
+        const prevStart = fullSegment.startAngle;
+        fullSegment.startAngle = (fullSegment.startAngle + TRAIL_SPEED) % (Math.PI * 2);
+        fullSegment.endAngle = (fullSegment.endAngle + TRAIL_SPEED) % (Math.PI * 2);
+
+        if (fullSegment.startAngle < prevStart) {
+          spinCount++;
+        }
+
+        // Passage à 1 heure (-PI / 3) au 2ème tour -> Début de la séparation
+        const targetAngle = (Math.PI * 2) - (Math.PI / 3);
+        let currentNorm = (fullSegment.startAngle + Math.PI * 2) % (Math.PI * 2);
+        let prevNorm = (prevStart + Math.PI * 2) % (Math.PI * 2);
+
+        if (spinCount >= 2 && state === 'spinning') {
+          if (prevNorm < targetAngle && currentNorm >= targetAngle) {
+            state = 'separating';
+            detachTimer = 0;
+            // On commence à reconstruire le tableau 'entities' avec les billes libérées
+            entities = [fullSegment];
+          }
+        }
+
+        // Séparation : expulsion d'une bille depuis la tête du trait
+        if (state === 'separating') {
+          detachTimer++;
+
+          if (detachTimer % 7 === 0 && fullSegment) {
+            let span = fullSegment.endAngle - fullSegment.startAngle;
+            if (span < 0) span += Math.PI * 2;
+
+            if (span > 0.15) {
+              const detachedAngle = fullSegment.startAngle;
+
+              // Détermination si la bille libérée est dans le secteur bleu
+              const isBlue = detachedAngle > Math.PI * 0.5 && detachedAngle < Math.PI * 1.5;
+
+              // Ajout de la bille détachée au tableau principal des entités
+              entities.push({
+                startAngle: detachedAngle,
+                endAngle: detachedAngle,
+                colorStart: isBlue ? BLUE_COLOR : GREEN_COLOR,
+                colorEnd: isBlue ? BLUE_COLOR : GREEN_COLOR,
+                isBlue: isBlue,
+                isSegment: false,
+                speed: EJECT_SPEED
+              });
+
+              // Raccourcissement du trait par l'avant
+              fullSegment.startAngle = (fullSegment.startAngle + (Math.PI * 2 / TOTAL_ELEMENTS)) % (Math.PI * 2);
+            } else {
+              // Le trait s'est entièrement vidé en billes
+              const index = entities.indexOf(fullSegment);
+              if (index !== -1) entities.splice(index, 1);
+              fullSegment = null;
+              state = 'uniform_loop';
+              uniformSpinCount = 0;
+            }
+          }
+        }
+
+        // Mise à jour de la position des billes déjà détachées pendant la phase de séparation
+        for (let i = 0; i < entities.length; i++) {
+          let e = entities[i];
+          if (!e.isSegment) {
+            if (e.speed > GREEN_SPEED) {
+              e.speed -= 0.0015; // Ralentit pour retrouver la vitesse globale
+            }
+            e.startAngle = (e.startAngle + e.speed) % (Math.PI * 2);
+            e.endAngle = e.startAngle;
+          }
+        }
+      }
+      else if (state === 'uniform_loop') {
+        // Toutes les 16 billes tournent ensemble à la même vitesse uniforme
+        const prevAngle = entities[0].startAngle;
+
+        for (let i = 0; i < entities.length; i++) {
+          let e = entities[i];
+          e.startAngle = (e.startAngle + GREEN_SPEED) % (Math.PI * 2);
+          e.endAngle = e.startAngle;
+        }
+
+        // Comptage des tours du cercle complet de billes
+        if (entities[0].startAngle < prevAngle) {
+          uniformSpinCount++;
+        }
+
+        // Après 2 tours complets en cercle uniforme, les bleues réaccélèrent
+        if (uniformSpinCount >= 2) {
+          state = 'chasing';
+        }
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      entities.forEach(e => {
+        let start = e.startAngle;
+        let end = e.endAngle;
+        if (end < start) end += Math.PI * 2;
+
+        if (!e.isSegment) {
+          // Rendu d'une bille
+          const x = CENTER_X + Math.cos(start) * RADIUS;
+          const y = CENTER_Y + Math.sin(start) * RADIUS;
+
+          ctx.beginPath();
+          ctx.arc(x, y, BALL_RADIUS, 0, Math.PI * 2);
+          ctx.fillStyle = e.colorStart;
+          ctx.fill();
+        } else {
+          // Rendu du trait / segment en dégradé
+          const x1 = CENTER_X + Math.cos(start) * RADIUS;
+          const y1 = CENTER_Y + Math.sin(start) * RADIUS;
+          const x2 = CENTER_X + Math.cos(end) * RADIUS;
+          const y2 = CENTER_Y + Math.sin(end) * RADIUS;
+
+          const grad = ctx.createLinearGradient(x1, y1, x2, y2);
+          grad.addColorStop(0, e.colorStart);
+          grad.addColorStop(1, e.colorEnd);
+
+          ctx.beginPath();
+          ctx.arc(CENTER_X, CENTER_Y, RADIUS, start, end);
+          ctx.strokeStyle = grad;
+          ctx.lineWidth = BALL_RADIUS * 2;
+          ctx.lineCap = 'round';
+          ctx.stroke();
+        }
+      });
+    }
+
+    function animate() {
+      update();
+      draw();
+      requestAnimationFrame(animate);
+    }
+
+    init();
+    animate();
+  </script>
+</body>
+</html>

@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('contact-form');
     if (!form) return;
@@ -80,3 +81,13 @@ document.addEventListener('DOMContentLoaded', () => {
         return Math.round(arr.reduce((a, b) => a + b, 0) / arr.length);
     }
 });
+const textarea = document.querySelector('form textarea');
+function checkTextareaContent() {
+    if (textarea.value.trim().length > 0) {
+        textarea.classList.add('has-content');
+    } else {
+        textarea.classList.remove('has-content');
+    }
+}
+textarea.addEventListener('input', checkTextareaContent);
+checkTextareaContent();
