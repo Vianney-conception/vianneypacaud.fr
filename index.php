@@ -6,17 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vianney Pacaud - devloppeur web</title>
     <link rel="stylesheet" href="/styles/styles.css">
+    <script src="/JS/chargement.js"></script>
+    <link rel="icon" href="https://vianneypacaud.fr/img/LogoCouleur.png" type="image/x-icon">
 </head>
 
 <body>
     <?php
     include 'chargement.php';
     ?>
-    <div id="GlobalSite">
+    <div id="GlobalSite" style="display:none;">
         <?php
         include 'header.php';
         ?>
-        <div id="" style="height: 100px;"></div>
         <section id="Entete">
             <div class="text">
                 <div class="titre">
@@ -186,6 +187,9 @@
 
             </div>
         </section>
+        <div class="modal">
+
+        </div>
         <?php
         include 'footer.php';
         ?>

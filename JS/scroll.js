@@ -41,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   }
-
   window.addEventListener('scroll', checkFooterAndScroll);
   window.addEventListener('resize', checkFooterAndScroll);
   checkFooterAndScroll();

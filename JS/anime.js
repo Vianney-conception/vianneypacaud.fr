@@ -45,8 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (delta >= frameInterval) {
             drawFrame(currentFrame);
-
-            // Arrêt sur la dernière image (index 61 = 0062.png)
             if (currentFrame >= totalFrames - 1) {
                 animationFrameId = null;
                 return;
@@ -66,28 +64,22 @@ document.addEventListener('DOMContentLoaded', () => {
         lastDrawTime = 0;
         animationFrameId = requestAnimationFrame(playAnimation);
     };
-
-    // Préchargement des 62 images
     for (let i = 1; i <= totalFrames; i++) {
         const img = new Image();
         img.src = getImagePath(i);
         img.onload = () => {
             imagesLoaded++;
             if (i === 1) {
-                drawFrame(0); // Affiche l'image 0001 dès son chargement
+                drawFrame(0);
             }
         };
         images.push(img);
     }
-
-    // Observer avec les deux seuils : 0 (totalement masqué) et 1 (totalement visible)
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
-            // 1. Pleinement visible (100%) : on lance la lecture si pas encore jouée
             if (entry.isIntersecting && entry.intersectionRatio >= 1) {
                 startAnimation();
-            } 
-            // 2. Complètement caché (0%) : on remet à zéro pour le prochain passage
+            }
             else if (!entry.isIntersecting || entry.intersectionRatio === 0) {
                 resetToFirstFrame();
             }
@@ -111,19 +103,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const isFullyVisible = entry.isIntersecting && entry.intersectionRatio >= 1;
 
             if (isFullyVisible) {
-                // Si aucun élément n'a la classe, on l'attribue à celui-ci
                 if (!activeElement) {
                     activeElement = el;
                     el.classList.add('AnimeBord');
                 }
-                // S'il y a déjà un actif, on ne fait rien (on garde le premier)
             } else {
-                // Si l'élément qui perd sa visibilité complète était l'actif
                 if (el === activeElement) {
                     el.classList.remove('AnimeBord');
                     activeElement = null;
-
-                    // On vérifie si un autre élément est déjà pleinement visible pour lui passer la main
                     for (const target of targets) {
                         if (target !== el) {
                             const rect = target.getBoundingClientRect();
@@ -145,27 +132,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }, {
-        threshold: 1.0 // Se déclenche uniquement quand un élément est vu à 100 %
+        threshold: 1.0
     });
-
     targets.forEach((target) => observer.observe(target));
 });
-
 function gommeMagique(selecteur, { rayon = 40, douceur = 0.6, echelle = 0.5, vitesseReformation = 0.015 } = {}) {
     const boite = document.querySelector(selecteur);
     if (!boite) return;
-
-    // Empêche le défilement tactile sur l'élément
     boite.style.touchAction = 'none';
-
-    // Détection de Firefox
     const estFirefox = navigator.userAgent.toLowerCase().includes('firefox');
-
     let estVisible = false;
-
-    // ==========================================
-    // EFFET POUR FIREFOX : Effet Projecteur (Spotlight)
-    // ==========================================
     if (estFirefox) {
         boite.style.position = 'relative';
         boite.style.overflow = 'hidden';
@@ -191,54 +167,41 @@ function gommeMagique(selecteur, { rayon = 40, douceur = 0.6, echelle = 0.5, vit
             spotlight.style.setProperty('--rayon', `${rayon * 2.5}px`);
             spotlight.style.opacity = '1';
         };
-
         const handlePointerLeave = () => {
             spotlight.style.opacity = '0';
         };
-
         boite.addEventListener('pointermove', handlePointerMove);
         boite.addEventListener('pointerleave', handlePointerLeave);
-
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 estVisible = entry.isIntersecting;
                 if (!estVisible) spotlight.style.opacity = '0';
             });
         }, { threshold: 0 });
-
         observer.observe(boite);
         return;
     }
-
-    // ==========================================
-    // EFFET POUR CHROME / SAFARI / EDGE
-    // ==========================================
     const fond = document.createElement('div');
     fond.className = 'gomme-fond';
     fond.style.touchAction = 'none';
     boite.prepend(fond);
-
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-
     let dernier = null;
     let enAttente = false;
     let actifJusqua = 0;
     let boucleActive = false;
     let rafId = null;
-
     function appliquerMasque() {
         if (!estVisible) return;
         const url = `url(${canvas.toDataURL()})`;
         fond.style.webkitMaskImage = url;
         fond.style.maskImage = url;
     }
-
     function retirerMasque() {
         fond.style.webkitMaskImage = 'none';
         fond.style.maskImage = 'none';
     }
-
     function planifierMasque() {
         if (enAttente || !estVisible) return;
         enAttente = true;
@@ -255,7 +218,6 @@ function gommeMagique(selecteur, { rayon = 40, douceur = 0.6, echelle = 0.5, vit
         ctx.globalCompositeOperation = 'source-over';
         ctx.fillStyle = '#000'; 
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
         if (estVisible) appliquerMasque();
         else retirerMasque();
     }
@@ -270,7 +232,6 @@ function gommeMagique(selecteur, { rayon = 40, douceur = 0.6, echelle = 0.5, vit
         ctx.arc(x, y, r, 0, Math.PI * 2);
         ctx.fill();
     }
-
     function gommer(x, y) {
         if (!estVisible) return;
         ctx.globalCompositeOperation = 'destination-out';
@@ -288,7 +249,6 @@ function gommeMagique(selecteur, { rayon = 40, douceur = 0.6, echelle = 0.5, vit
         dernier = { x, y };
         planifierMasque();
     }
-
     function reveiller() {
         if (!estVisible) return;
         actifJusqua = performance.now() + (4.6 / vitesseReformation) * 16.7;
@@ -297,7 +257,6 @@ function gommeMagique(selecteur, { rayon = 40, douceur = 0.6, echelle = 0.5, vit
             rafId = requestAnimationFrame(boucleReformation);
         }
     }
-
     function boucleReformation(t) {
         if (!estVisible) {
             boucleActive = false;
@@ -313,18 +272,15 @@ function gommeMagique(selecteur, { rayon = 40, douceur = 0.6, echelle = 0.5, vit
         }
         ctx.globalCompositeOperation = 'source-over';
         ctx.fillStyle = `rgba(0, 0, 0, ${vitesseReformation})`;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
+        ctx.fillRect(0, 0, canvas.width, canvas.height);   
         planifierMasque();
         rafId = requestAnimationFrame(boucleReformation);
     }
-
     const handlePointerMove = (e) => {
         const r = boite.getBoundingClientRect();
         gommer((e.clientX - r.left) * echelle, (e.clientY - r.top) * echelle);
         reveiller();
     };
-
     const handlePointerLeave = () => { dernier = null; };
 
     boite.addEventListener('pointermove', handlePointerMove);
@@ -351,6 +307,4 @@ function gommeMagique(selecteur, { rayon = 40, douceur = 0.6, echelle = 0.5, vit
 
     observer.observe(boite);
 }
-
-// Utilisation
 gommeMagique('#Lesoucisdudetail', { rayon: 40, douceur: 0.6, vitesseReformation: 0.004 });
