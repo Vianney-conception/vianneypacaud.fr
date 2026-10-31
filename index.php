@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/styles/styles.css">
     <script src="/JS/chargement.js"></script>
     <link rel="icon" href="https://vianneypacaud.fr/img/LogoCouleur.png" type="image/x-icon">
+    <?php include 'Partage.php' ?>
 </head>
 
 <body>
@@ -53,8 +54,7 @@
                                 complètes. De la structure backend à l'habillage sémantique en passant par la
                                 fluidité des interactions, je privilégie la clarté et la durabilité du code.</p>
                             <br>
-                            <p>Mon leitmotiv : une conception sans fioriture, centrée sur l'utilisateur, que ce soit
-                                pour des utilitaires locaux sécurisés ou des architectures e-commerce performantes.
+                            <p>Mes conceptions sont centrées sur l'expérience utilisateur. Celle-ci doit être agréable, intuitive et fluide.
                             </p>
                         </div>
 

@@ -4,12 +4,12 @@
         <ul>
             <li><a class="animation Clic-Particule" href="#Contact">Contact</a></li>
             <li><a class="animation Clic-Particule" href="/Clients/">Espace Client</a></li>
-            <li><a class="animation Clic-Particule" href="/Articles/mentions-legales">Mentions légales</a></li>
-            <li><a class="animation Clic-Particule" href="/Articles/Gestion-de-vos-donnees">Gestion de vos données</a>
+            <li><a class="animation Clic-Particule" href="/Articles/ML">Mentions légales</a></li>
+            <li><a class="animation Clic-Particule" href="/Articles/GVD">Gestion de vos données</a>
             </li>
             <li><a class="animation Clic-Particule"
-                    href="https://documentation.vianneypacaud.fr/books/informations-clients-prestations/page/conditions-generales-de-vente">Conditions
-                    générale de vente</a></li>
+                    href="/Articles/CGV">Conditions
+                    générales de vente</a></li>
         </ul>
         <p style="text-align: center;">Site en cour de develloppement</p>
     </nav>

@@ -1,0 +1,4 @@
+RewriteEngine On
+RewriteCond %{REQUEST_URI} !/Articles/404\.php$ [NC]
+RewriteCond %{REQUEST_URI} !/Articles/403\.php$ [NC]
+RewriteRule ^(.*)$ article.php [L]

@@ -53,32 +53,38 @@ html {
     font-family: 'Roboto';
 }
 
-#Chargement p{
+#Chargement p {
     font-size: 1rem;
     color: var(--bleuModeClaire);
 }
+
 #Chargement svg {
-  animation: rotationSvg 2s linear infinite, changementCouleur 4s ease-in-out infinite;
-  stroke: currentColor; 
+    animation: rotationSvg 2s linear infinite, changementCouleur 4s ease-in-out infinite;
+    stroke: currentColor;
 }
+
 @keyframes rotationSvg {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
+
 @keyframes changementCouleur {
-  0% {
-    color: var(--bleuModeClaire);
-  }
-  50% {
-    color: var(--vertModeClaire);
-  }
-  100% {
-    color: var(--bleuModeClaire);
-  }
+    0% {
+        color: var(--bleuModeClaire);
+    }
+
+    50% {
+        color: var(--vertModeClaire);
+    }
+
+    100% {
+        color: var(--bleuModeClaire);
+    }
 }
 
 /**/
@@ -86,7 +92,6 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Roboto';
-    min-height: 200vh;
     background-color: var(--grisClair);
 }
 
@@ -157,7 +162,7 @@ header .logo img {
 }
 
 header h1 {
-    width: 450px;
+    width: 260px;
 }
 
 h1 {
@@ -316,6 +321,21 @@ button.stylebtn:hover {
     background-clip: text;
     color: transparent;
     -webkit-text-fill-color: transparent;
+}
+
+
+article h1.Introuvable {
+    font-size: 10rem;
+    text-align: unset;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: "Space Grotesk", sans-serif;
+    display: inline-block;
+    background: linear-gradient(135deg, var(--bleuModeClaire) 0%, var(--vertModeClaire) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 section {
@@ -553,6 +573,11 @@ ul li::marker {
     width: 100%;
 }
 
+.lienVersAcceuil {
+    display: flex;
+    align-items: center;
+}
+
 @keyframes rotationBordure {
     to {
         --angle: 360deg;
@@ -612,7 +637,6 @@ h3 {
     animation: EffetbattementCoeur 1.6s ease-in-out infinite;
 }
 
-/* exemple detour.gervo.fr */
 .img-comparator {
     position: relative;
     width: 100%;
@@ -688,6 +712,84 @@ h3 {
 #ContactFormulaire h1 {
     text-align: left;
 }
+#ZonedeRecherche{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.ZonedeRechercheContenant{
+    width: calc(100% - 20px);
+    max-width: 500px;
+    border-radius: 0.5rem;
+    padding: 10px;
+    border: unset;
+    border: 1px solid var(--blanc);
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    max-height: 300px;
+    transition: all 0.3s ease;
+}
+.ZonedeProposition{
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+}
+.ZonedeProposition ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 0;
+}
+.ZonedeProposition ul li {
+    list-style: none;
+    border: unset;
+    border-bottom: 1px solid var(--grisNuance2);
+}
+.ZonedeProposition a{
+    display: block;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    background-color: var(--blanc);
+}
+.ZonedeProposition a:hover{
+    background-size: 0 0;
+    background-color: var(--grisClair);
+}
+#ZonedeRecherche input{
+    width: 100%;
+    font-size: 1.3rem;
+}
+.ZonedeRechercheContenant:has(input:focus),
+.ZonedeRechercheContenant:has(input:hover),
+.ZonedeRechercheContenant:has(input.contient){
+    border: 1px solid var(--grisNuance2);
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  #contenuSommaire, .ZonedeProposition {
+    scrollbar-width: thin;
+    scrollbar-color: var(--vertModeClaire) transparent;
+  }
+}
+
+#contenuSommaire::-webkit-scrollbar, .ZonedeProposition::-webkit-scrollbar {
+  width: 8px;
+}
+
+#contenuSommaire::-webkit-scrollbar-track,.ZonedeProposition::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#contenuSommaire::-webkit-scrollbar-thumb,.ZonedeProposition::-webkit-scrollbar-thumb {
+  background: var(--vertModeClaire);
+  border-radius: 4px;
+}
+
+#contenuSommaire::-webkit-scrollbar-thumb:hover,.ZonedeProposition::-webkit-scrollbar-thumb:hover {
+  background: var(--bleuModeClaire);
+}
 
 form {
     max-width: 500px;
@@ -699,7 +801,7 @@ form {
     margin-right: auto;
 }
 
-form input {
+form input, #ZonedeRecherche input {
     width: 100%;
     outline: unset;
     border: unset;
@@ -710,7 +812,9 @@ form input {
 }
 
 form input:focus,
-form input:hover {
+form input:hover,
+#ZonedeRecherche input:focus,
+#ZonedeRecherche input:hover {
     outline: unset;
     border: unset;
     background-color: unset;
@@ -891,6 +995,10 @@ footer nav {
         display: flex;
     }
 
+    .lienVersAcceuil {
+        width: 100%;
+    }
+
     header h1 {
         width: 100%;
     }
@@ -959,6 +1067,9 @@ footer nav {
 }
 
 @media (max-width: 340px) {
+    article h1.Introuvable {
+        font-size: 8rem;
+    }
     #Entete .text .titre h1 {
         font-size: 4rem;
     }
@@ -976,7 +1087,7 @@ footer nav {
     }
 }
 
-@media (max-width: 310px) {
+@media (max-width: 312px) {
     header.scroll h1 {
         font-size: 1.1rem;
     }
@@ -987,6 +1098,6 @@ footer nav {
     }
 }
 
-.cache{
+.cache {
     display: none !important;
 }
