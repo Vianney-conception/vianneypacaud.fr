@@ -1,5 +1,5 @@
 window.addEventListener('load', () => {
-    document.fonts.ready.then(() => {
+    Promise.all([document.fonts.ready, window.binReady]).then(() => {
         const globalSite = document.getElementById('GlobalSite');
         const chargement = document.getElementById('Chargement');
         if (globalSite) {

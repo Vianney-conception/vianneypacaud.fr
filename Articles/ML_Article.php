@@ -9,7 +9,6 @@
     <li><strong>Siège social</strong> : 8 RUE du Grand Logis, 44190 Clisson, FRANCE</li>
     <li><strong>Numéro d'Immatriculation (SIRET)</strong> : 989 574 538 00017</li>
     <li><strong>Numéro SIREN</strong> : 989 574 538</li>
-    <li><strong>Téléphone</strong> : 06 95 63 31 74</li>
     <li><strong>Adresse E-mail</strong> : <a href="mailto:contact@vianneypacaud.fr">contact@vianneypacaud.fr</a></li>
     <li><strong>Adresse Complète du Site de l'éditeur</strong> : <a href="https://vianneypacaud.fr">https://vianneypacaud.fr</a></li>
     <li><strong>Directeur de la publication</strong> : Vianney Pacaud</li>

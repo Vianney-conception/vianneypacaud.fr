@@ -9,7 +9,6 @@
             <li><strong>SIREN</strong> : 989 574 538</li>
             <li><strong>SIRET (Établissement principal)</strong> : 989 574 538 00017</li>
             <li><strong>Adresse du siège social</strong> : 8 RUE du Grand Logis, 44190 Clisson, FRANCE</li>
-            <li><strong>Téléphone</strong> : 06 95 63 31 74</li>
             <li><strong>Adresse e-mail</strong> : <a href="mailto:contact@vianneypacaud.fr">contact@vianneypacaud.fr</a>
             </li>
             <li><strong>Site Internet</strong> : <a href="https://vianneypacaud.fr">vianneypacaud.fr</a></li>

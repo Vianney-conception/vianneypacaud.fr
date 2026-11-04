@@ -1,33 +1,30 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const canvas = document.getElementById('laptop-canvas');
     if (!canvas) return;
-
     const ctx = canvas.getContext('2d');
     const totalFrames = 62;
     const fps = 30;
     const frameInterval = 1000 / fps;
-
-    const images = [];
-    let imagesLoaded = 0;
+    const framesBitmaps = [];
     let currentFrame = 0;
     let animationFrameId = null;
     let lastDrawTime = 0;
     let hasPlayed = false;
-    const getImagePath = (index) => {
-        const num = String(index).padStart(4, '0');
-        return `/AnimationOrdinateur/img4/${num}.png`;
-    };
+    let isLoaded = false;
+    const basePath = '/img/AnimationPCRDR';
+    const jsonPath = `${basePath}/Position.json`;
+    const binPath = `${basePath}/animation_pack.bin`;
     const drawFrame = (frameIndex) => {
-        const img = images[frameIndex];
-        if (!img || !img.complete) return;
+        const bitmap = framesBitmaps[frameIndex];
+        if (!bitmap) return;
 
-        if (canvas.width !== img.naturalWidth || canvas.height !== img.naturalHeight) {
-            canvas.width = img.naturalWidth;
-            canvas.height = img.naturalHeight;
+        if (canvas.width !== bitmap.width || canvas.height !== bitmap.height) {
+            canvas.width = bitmap.width;
+            canvas.height = bitmap.height;
         }
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        ctx.drawImage(bitmap, 0, 0);
     };
     const resetToFirstFrame = () => {
         if (animationFrameId) {
@@ -36,61 +33,91 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         currentFrame = 0;
         hasPlayed = false;
-        drawFrame(0);
+        if (framesBitmaps[0]) {
+            drawFrame(0);
+        }
     };
-
     const playAnimation = (timestamp) => {
         if (!lastDrawTime) lastDrawTime = timestamp;
         const delta = timestamp - lastDrawTime;
-
         if (delta >= frameInterval) {
             drawFrame(currentFrame);
             if (currentFrame >= totalFrames - 1) {
                 animationFrameId = null;
                 return;
             }
-
             currentFrame++;
             lastDrawTime = timestamp - (delta % frameInterval);
         }
-
-        animationFrameId = requestAnimationFrame(playAnimation);
+  animationFrameId = requestAnimationFrame(playAnimation);
     };
-
     const startAnimation = () => {
-        if (hasPlayed || animationFrameId) return;
+        if (!isLoaded || hasPlayed || animationFrameId) return;
         hasPlayed = true;
         currentFrame = 0;
         lastDrawTime = 0;
         animationFrameId = requestAnimationFrame(playAnimation);
     };
-    for (let i = 1; i <= totalFrames; i++) {
-        const img = new Image();
-        img.src = getImagePath(i);
-        img.onload = () => {
-            imagesLoaded++;
-            if (i === 1) {
+    try {
+        const jsonRes = await fetch(jsonPath);
+        const framesData = await jsonRes.json();
+        const frameKeys = Object.keys(framesData);
+        const binRes = await fetch(binPath);
+        const reader = binRes.body.getReader();
+        const contentLength = +binRes.headers.get('Content-Length');
+        let receivedLength = 0;
+        const chunks = [];
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            chunks.push(value);
+            receivedLength += value.length;
+            const firstKey = frameKeys[0];
+            const firstInfo = framesData[firstKey];
+            const requiredLength = firstInfo.offset + firstInfo.length;
+            if (!framesBitmaps[0] && receivedLength >= requiredLength) {
+                const fullBuffer = concatenateChunks(chunks, receivedLength);
+                const slice = fullBuffer.slice(firstInfo.offset, firstInfo.offset + firstInfo.length);
+                const blob = new Blob([slice], { type: 'image/webp' });
+                framesBitmaps[0] = await createImageBitmap(blob);
                 drawFrame(0);
             }
-        };
-        images.push(img);
+        }
+        const completeBuffer = concatenateChunks(chunks, receivedLength);
+        for (let i = 0; i < frameKeys.length; i++) {
+            const key = frameKeys[i];
+            const info = framesData[key];
+            if (i === 0 && framesBitmaps[0]) continue;
+            const slice = completeBuffer.slice(info.offset, info.offset + info.length);
+            const blob = new Blob([slice], { type: 'image/webp' });
+            framesBitmaps[i] = await createImageBitmap(blob);
+        }
+        isLoaded = true;
+    } catch (error) {
+        console.error("Erreur lors du chargement progressif du pack d'animation :", error);
+    }
+    function concatenateChunks(chunks, totalLength) {
+        const result = new Uint8Array(totalLength);
+        let position = 0;
+        for (let chunk of chunks) {
+            result.set(chunk, position);
+            position += chunk.length;
+        }
+        return result.buffer;
     }
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting && entry.intersectionRatio >= 1) {
                 startAnimation();
-            }
-            else if (!entry.isIntersecting || entry.intersectionRatio === 0) {
+            } else if (!entry.isIntersecting || entry.intersectionRatio === 0) {
                 resetToFirstFrame();
             }
         });
     }, {
         threshold: [0, 1.0]
     });
-
-    observer.observe(canvas);
+   observer.observe(canvas);
 });
-
 document.addEventListener('DOMContentLoaded', () => {
     const targets = document.querySelectorAll('.Animation');
     if (!targets.length) return;

@@ -38,15 +38,8 @@ $is_home = ($current_page === '' || $current_page === 'index.php' || $current_pa
 </header>
 <?php if ($is_home): ?>
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const navLinks = document.querySelectorAll("#BoutonsNavigation a[href^='#']"); let isScrollingToSection = !1; const observerOptions = { root: null, rootMargin: "-20% 0px -50% 0px", threshold: 0.1 }; const observer = new IntersectionObserver((entries) => { if (isScrollingToSection) return; entries.forEach(entry => { if (entry.isIntersecting) { const targetId = entry.target.getAttribute('id'); navLinks.forEach(link => { link.classList.remove('active'); if (link.getAttribute('href') === `#${targetId}`) { link.classList.add('active') } }) } }) }, observerOptions); navLinks.forEach(link => {
-            const href = link.getAttribute('href'); const targetSection = document.querySelector(href); if (targetSection) { observer.observe(targetSection) }
-            link.addEventListener('click', (e) => { isScrollingToSection = !0; navLinks.forEach(l => l.classList.remove('active')); link.classList.add('active'); setTimeout(() => { isScrollingToSection = !1 }, 800) })
-        }); window.addEventListener('scroll', () => {
-            if (isScrollingToSection) return; const scrollPosition = window.scrollY; const documentHeight = document.documentElement.scrollHeight - window.innerHeight; if (scrollPosition < 50) { navLinks.forEach(link => link.link.classList.remove('active')) }
-            if (scrollPosition >= documentHeight - 50) { navLinks.forEach(link => link.classList.remove('active')) }
-        })
-    })
+  document.addEventListener("DOMContentLoaded",()=>{const navLinks=document.querySelectorAll("#BoutonsNavigation a[href^='#']");if(!navLinks.length)return;let isScrollingToSection=!1;const observerOptions={root:null,rootMargin:"-20% 0px -50% 0px",threshold:0.1};const observer=new IntersectionObserver((entries)=>{if(isScrollingToSection)return;let anyIntersecting=!1;entries.forEach(entry=>{if(entry.isIntersecting){anyIntersecting=!0;const targetId=entry.target.getAttribute('id');navLinks.forEach(link=>{link.classList.remove('active');if(link.getAttribute('href')===`#${targetId}`){link.classList.add('active')}})}});if(!anyIntersecting){navLinks.forEach(link=>link.classList.remove('active'))}},observerOptions);navLinks.forEach(link=>{const href=link.getAttribute('href');const targetSection=document.querySelector(href);if(targetSection){observer.observe(targetSection)}
+link.addEventListener('click',()=>{isScrollingToSection=!0;navLinks.forEach(l=>l.classList.remove('active'));link.classList.add('active');setTimeout(()=>{isScrollingToSection=!1},800)})});window.addEventListener('scroll',()=>{if(isScrollingToSection)return;const scrollPosition=window.scrollY;const documentHeight=document.documentElement.scrollHeight-window.innerHeight;if(scrollPosition<50||scrollPosition>=documentHeight-50){navLinks.forEach(link=>link.classList.remove('active'))}})})
 </script>
 <?php endif; ?>
 <div id="" style="height: 100px;"></div>

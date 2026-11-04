@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vianney Pacaud - devloppeur web</title>
+    <title>Vianney Pacaud - développeur web</title>
     <link rel="stylesheet" href="/styles/styles.css">
     <script src="/JS/chargement.js"></script>
     <link rel="icon" href="https://vianneypacaud.fr/img/LogoCouleur.png" type="image/x-icon">
