@@ -105,7 +105,7 @@
                         curl_close($ch);
                         $data = $response ? json_decode($response, true) : null;
                         if ($httpCode === 200 && isset($data['status']) && $data['status'] === 'available') {
-                            echo '<button onclick="window.open(\'https://detour.gervo.fr\', \'_blank\');" style="max-width: 120px;" class="stylebtn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link preview-icon"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg> Tester l\'API</button>';
+                            echo '<button onclick="window.open(\'/Articles/SuppFond/\', \'_blank\');" style="max-width: 120px;" class="stylebtn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link preview-icon"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg> Tester l\'API</button>';
                         } ?>
                     </div>
                     <div class="DemoGervoDetourAPI">
@@ -178,10 +178,13 @@
                         <input type="hidden" name="form_timestamp" value="1729688640">
                         <input type="hidden" name="bot_human_score" id="bot_human_score" value="0">
                         <input type="hidden" name="bot_behavior_data" id="bot_behavior_data" value="">
-
                         <button type="submit" class="stylebtn Clic-Particule">Envoyer le message</button>
                     </form>
-
+                    <script>document.getElementById('contact-form').addEventListener('submit',function(e){e.preventDefault();const form=this;const chargement=document.getElementById('Chargement');form.querySelectorAll('.info.success, .info.erreur').forEach(msg=>msg.remove());if(chargement){chargement.classList.remove('cache')}
+const formData=new FormData(form);fetch(form.action,{method:form.method,body:formData,headers:{'X-Requested-With':'XMLHttpRequest'}}).then(response=>{if(chargement){chargement.classList.add('cache')}
+if(!response.ok){throw new Error('Erreur réseau')}
+return response.text()}).then(result=>{form.querySelectorAll('.info.success, .info.erreur').forEach(msg=>msg.remove());const successDiv=document.createElement('div');successDiv.className='info success';successDiv.textContent='Votre message a été transmis avec succès !';form.prepend(successDiv);form.reset()}).catch(error=>{if(chargement){chargement.classList.add('cache')}
+form.querySelectorAll('.info.success, .info.erreur').forEach(msg=>msg.remove());const errorDiv=document.createElement('div');errorDiv.className='info erreur';errorDiv.textContent='Une erreur s\'est produite, veuillez réessayer.';form.prepend(errorDiv)})})</script>
                     <script src="/JS/anti-bot-behavior.js"></script>
                 </div>
 

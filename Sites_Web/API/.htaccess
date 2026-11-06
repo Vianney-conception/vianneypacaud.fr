@@ -1,0 +1,6 @@
+<Files "messages.json">
+    Order allow,deny
+    Deny from all
+    Satisfy All
+    ErrorDocument 403 /Articles/404.php
+</Files>
