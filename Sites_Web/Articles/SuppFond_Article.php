@@ -52,7 +52,7 @@ article .img-comparator .img-full {
     touch-action: none;
 }
 </style>
-<div class="info banal">Vous vous apprêtez à tester une de nos API, avez-vous lu notre <a href="/Articles/GVD#repere2">politique de gestion des données ?</a></div>
+<div class="info banal">Vous vous apprêtez à tester une de nos API, avez-vous lu notre <a href="/Articles/GVD#ARTICLE_2_-_DONNEES_RELATIVES_A_LUSAGE_DE_NOS_API">politique de gestion des données ?</a></div>
 <h1>Détourer vos images</h1>
 <p>Cliquez sur <strong>Choisir une image</strong> puis sur <strong>Lancer le détourage</strong>. Une fois l'image détourée vous pouvez la télécharger en cliquant sur <strong>Télécharger le résultat</strong>.</p>
 <div id="status-message" style="margin-bottom: 20px;"></div>
