@@ -177,7 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         {
             nom: "CGV - ARTICLE 1 - Désignation du Prestataire",
-            url: "/Articles/CGV#repere1",
+            url: "/Articles/CGV#ARTICLE_1_-_Designation_du_Prestataire",
             motsCles: [
                 "prestataire",
                 "Vianney Pacaud",
@@ -197,7 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         {
             nom: "CGV - ARTICLE 2 - Champ d'application",
-            url: "/Articles/CGV#repere2",
+            url: "/Articles/CGV#ARTICLE_2_-_Champ_dapplication",
             motsCles: [
                 "champ",
                 "application",
@@ -223,22 +223,22 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         {
             nom: "CGV - ARTICLE 3 - Commandes et Devis",
-            url: "/Articles/CGV#repere3",
+            url: "/Articles/CGV#ARTICLE_3_-_Commandes_et_Devis",
             motsCles: ["commandes", "devis", "acompte", "validite", "litige", "annulation", "refus", "vente"],
         },
         {
             nom: "CGV - ARTICLE 4 - Tarifs",
-            url: "/Articles/CGV#repere4",
+            url: "/Articles/CGV#ARTICLE_4_-_Tarifs",
             motsCles: ["tarifs", "prix", "facture", "ferme", "non revisable", "montant"],
         },
         {
             nom: "CGV - ARTICLE 5 - Conditions de paiement",
-            url: "/Articles/CGV#repere5",
+            url: "/Articles/CGV#ARTICLE_5_-_Conditions_de_paiement",
             motsCles: ["paiement", "modalites", "acompte", "solde", "comptant", "encaissement", "reglement"],
         },
         {
             nom: "CGV - ARTICLE 6 - Retard de paiement et Suspension des services",
-            url: "/Articles/CGV#repere6",
+            url: "/Articles/CGV#ARTICLE_6_-_Retard_de_paiement_et_Suspension_des_services",
             motsCles: [
                 "retard",
                 "penalites",
@@ -254,7 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         {
             nom: "CGV - ARTICLE 7 - Propriété intellectuelle",
-            url: "/Articles/CGV#repere7",
+            url: "/Articles/CGV#ARTICLE_7_-_Propriete_intellectuelle",
             motsCles: [
                 "propriete",
                 "intellectuelle",
@@ -272,12 +272,12 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         {
             nom: "CGV - ARTICLE 8 - Fourniture des Services",
-            url: "/Articles/CGV#repere8",
+            url: "/Articles/CGV#ARTICLE_8_-_Fourniture_des_Services",
             motsCles: ["fourniture", "delais", "obligation", "moyens", "reception", "reserves", "conformite"],
         },
         {
             nom: "CGV - ARTICLE 9 - Garanties et Responsabilité",
-            url: "/Articles/CGV#repere9",
+            url: "/Articles/CGV#ARTICLE_9_-_Garanties_et_Responsabilite",
             motsCles: [
                 "garanties",
                 "responsabilite",
@@ -291,7 +291,7 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         {
             nom: "CGV - ARTICLE 10 - Protection des données personnelles",
-            url: "/Articles/CGV#repere10",
+            url: "/Articles/CGV#ARTICLE_10_-_Protection_des_donnees_personnelles",
             motsCles: [
                 "donnees",
                 "personnelles",
@@ -305,12 +305,12 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         {
             nom: "CGV - ARTICLE 11 - Droit applicable et Litiges",
-            url: "/Articles/CGV#repere11",
+            url: "/Articles/CGV#ARTICLE_11_-_Droit_applicable_et_Litiges",
             motsCles: ["droit", "applicable", "litiges", "tribunaux", "francais", "amiable", "juridiction"],
         },
         {
             nom: "Gestion des données - ARTICLE 1 - Données relatives à la visite de ce site",
-            url: "/Articles/GVD#repere1",
+            url: "/Articles/GVD#ARTICLE_1_-_DONNEES_RELATIVES_A_LA_VISITE_DE_CE_SITE",
             motsCles: [
                 "donnees",
                 "visite",
@@ -341,7 +341,7 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         {
             nom: "Gestion des données - ARTICLE 2 - Données relatives à l'usage de nos API",
-            url: "/Articles/GVD#repere2",
+            url: "/Articles/GVD#ARTICLE_2_-_DONNEES_RELATIVES_A_LUSAGE_DE_NOS_API",
             motsCles: [
                 "API",
                 "detourage",
@@ -360,12 +360,12 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         {
             nom: "Gestion des données - ARTICLE 3 - Données relatives aux prestations",
-            url: "/Articles/GVD#repere3",
+            url: "/Articles/GVD#ARTICLE_3_-_DONNEES_RELATIVES_AUX_PRESTATIONS_",
             motsCles: ["prestations", "commandes", "facturation", "cgv"],
         },
         {
             nom: "Gestion des données - ARTICLE 4 - Vos droits et respect du RGPD",
-            url: "/Articles/GVD#repere4",
+            url: "/Articles/GVD#ARTICLE_4_-_VOS_DROITS_ET_RESPECT_DU_RGPD",
             motsCles: [
                 "RGPD",
                 "droits",
@@ -383,12 +383,12 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         {
             nom: "Mentions Légales - 1 : Informations générales",
-            url: "/Articles/ML#repere1",
+            url: "/Articles/ML#1_Informations_generales",
             motsCles: ["LCEN", "confiance", "economie", "numerique", "loi", "informations", "legales"],
         },
         {
             nom: "Mentions Légales - 2 : Informations sur l'éditeur",
-            url: "/Articles/ML#repere2",
+            url: "/Articles/ML#2_Informations_sur_lediteur",
             motsCles: [
                 "editeur",
                 "Vianney Pacaud",
@@ -407,7 +407,7 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         {
             nom: "Mentions Légales - 3 : Informations sur l'Hébergeur",
-            url: "/Articles/ML#repere3",
+            url: "/Articles/ML#3_Informations_sur_lHebergeur",
             motsCles: [
                 "hebergeur",
                 "o2switch",
@@ -421,7 +421,7 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         {
             nom: "Mentions Légales - 4 : Propriété intellectuelle",
-            url: "/Articles/ML#repere4",
+            url: "/Articles/ML#4_Propriete_intellectuelle",
             motsCles: [
                 "propriete",
                 "intellectuelle",
@@ -438,7 +438,7 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         {
             nom: "Mentions Légales - 5 : Protection des données personnelles",
-            url: "/Articles/ML#repere5",
+            url: "/Articles/ML#5_Protection_des_donnees_personnelles",
             motsCles: [
                 "protection",
                 "donnees",

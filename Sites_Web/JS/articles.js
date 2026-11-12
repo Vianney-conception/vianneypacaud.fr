@@ -1,5 +1,4 @@
-//gestion du scroll
- document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
         const header = document.querySelector('header'); const btnTop = document.querySelector('.btn-remonter'); const footer = document.querySelector('footer'); let isAutoScrolling = !1; let lastScrollY = window.scrollY; let accumulatedScroll = 0; window.toppage = function () { if (!btnTop) return; isAutoScrolling = !0; btnTop.classList.remove('scroll'); window.scrollTo({ top: 0, behavior: 'smooth' }); const checkTopReached = setInterval(() => { if (window.scrollY === 0) { clearInterval(checkTopReached); setTimeout(() => { isAutoScrolling = !1 }, 100) } }, 50) }; function checkFooterAndScroll() {
             if (!header || !footer) return; const currentScrollY = window.scrollY; const rect = footer.getBoundingClientRect(); const windowHeight = window.innerHeight || document.documentElement.clientHeight; const isFooterFullyVisible = (rect.top >= -1 && rect.bottom <= windowHeight + 1); if (isFooterFullyVisible) { header.classList.remove('scroll') } else {
                 const scrollDifference = currentScrollY - lastScrollY; if ((scrollDifference > 0 && accumulatedScroll < 0) || (scrollDifference < 0 && accumulatedScroll > 0)) { accumulatedScroll = 0 }
@@ -10,8 +9,6 @@
         }
         window.addEventListener('scroll', checkFooterAndScroll); window.addEventListener('resize', checkFooterAndScroll); checkFooterAndScroll()
     })
-//
-//sommaire gestion
 function deploieSommaire() {
     const sommaire = document.getElementById("SommaireArticle");
     sommaire.classList.toggle("on");
@@ -22,30 +19,38 @@ document.addEventListener("click", function(event) {
         deploieSommaire();
     }
 });
-//
-//navigation dans sommaire
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Sélectionner l'article et le conteneur du sommaire
     const article = document.querySelector("article");
     const sommaireUl = document.querySelector("#contenuSommaire nav ul");
 
     if (!article || !sommaireUl) return;
-
-    // 2. Récupérer tous les h2 de l'article
     const h2Elements = article.querySelectorAll("h2");
     if (h2Elements.length === 0) return;
-
-    // Vider le conteneur au cas où
     sommaireUl.innerHTML = "";
-
-    const linkMap = new Map(); // Associe chaque id de h2 à son élément <a>
-
-    // 3. Parcourir chaque h2 pour lui assigner un repère et créer le lien
+    const linkMap = new Map();
+    const usedIds = new Set();
+    h2Elements.forEach(h2 => { if (h2.id) usedIds.add(h2.id); });
+    function slugify(text) {
+        return text
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .trim()
+            .replace(/[^\w\s-]/g, "")
+            .replace(/\s+/g, "_");
+    }
+    function uniqueId(base) {
+        base = base || "section";
+        let id = base;
+        let i = 2;
+        while (usedIds.has(id) || document.getElementById(id)) {
+            id = `${base}_${i++}`;
+        }
+        usedIds.add(id);
+        return id;
+    }
     h2Elements.forEach((h2, index) => {
-        const repereId = `repere${index + 1}`;
-        
         if (!h2.id) {
-            h2.id = repereId;
+            h2.id = uniqueId(slugify(h2.textContent));
         }
 
         const li = document.createElement("li");
@@ -53,8 +58,6 @@ document.addEventListener("DOMContentLoaded", () => {
         
         a.href = `#${h2.id}`;
         a.textContent = h2.textContent;
-        
-        // Activer le premier par défaut
         if (index === 0) {
             a.classList.add("active");
         }
@@ -64,11 +67,9 @@ document.addEventListener("DOMContentLoaded", () => {
         
         linkMap.set(h2.id, a);
     });
-
-    // 4. Gestion de la classe active multiple (Scroll Spy)
     const observerOptions = {
         root: null,
-        rootMargin: "0px 0px -20% 0px", // Détecte quand le h2 entre ou est présent dans la vue
+        rootMargin: "0px 0px -20% 0px",
         threshold: 0
     };
 
@@ -78,16 +79,11 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!link) return;
 
             if (entry.isIntersecting) {
-                // Si le h2 devient visible, on ajoute la classe active
                 link.classList.add("active");
             } else {
-                // S'il sort de l'écran, on la retire
                 link.classList.remove("active");
             }
         });
     }, observerOptions);
-
-    // Observer chaque h2 de l'article
     h2Elements.forEach(h2 => observer.observe(h2));
 });
-//
