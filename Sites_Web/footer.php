@@ -1,4 +1,4 @@
-<button aria-label="Remonter en haut de la page" onclick="toppage();" class="btn-remonter Clic-Particule"><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-up preview-icon"><path d="m18 15-6-6-6 6"/></svg></button>
+<button aria-label="Remonter en haut de la page" onclick="toppage();" class="btn-remonter NonFocus Clic-Particule"><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-up preview-icon"><path d="m18 15-6-6-6 6"/></svg></button>
 <footer>
     <nav aria-label="Liens de pied de page">
         <ul>

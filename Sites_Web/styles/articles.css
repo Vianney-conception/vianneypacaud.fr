@@ -91,53 +91,20 @@ article a,
     text-decoration: none;
 }
 
-article a:hover,
-#contenuSommaire nav ul li a:hover {
+article a:hover,article a:focus,
+#contenuSommaire nav ul li a:hover,#contenuSommaire nav ul li a:focus {
     background-size: 100% 2px;
+    outline: none;
 }
 
 #contenuSommaire nav ul li a.active {
     background-image: linear-gradient(var(--bleuModeClaire), var(--bleuModeClaire));
 }
 
-#contenuSommaire nav ul li a.active:hover {
+#contenuSommaire nav ul li a.active:hover,#contenuSommaire nav ul li a.active:focus {
     background-size: 100% 2px;
 }
 
-header.scroll {
-    width: 100%;
-    max-width: none;
-    height: 80px;
-    top: -80px;
-    left: 0;
-    transform: none;
-    border-radius: 0;
-    padding: 0;
-    background-color: var(--blanc);
-    border: none;
-    border-bottom: 1px solid var(--grisNuance2);
-    box-shadow: none;
-}
-
-header.scroll::before {
-    content: none;
-    display: none;
-}
-
-header.scroll .logo img {
-    width: 50px;
-    height: 50px;
-    padding: 10px;
-}
-
-header.scroll nav a {
-    font-size: 1.2rem;
-}
-
-header.scroll h1 {
-    width: 450px;
-    font-size: 2rem;
-}
 
 .Sommaire {
     position: fixed;
@@ -158,15 +125,6 @@ header.scroll h1 {
     width: 280px;
     height: auto;
     max-height: calc(100% - 110px);
-}
-
-header.scroll~.Sommaire {
-    top: 20px;
-}
-
-header.scroll~.Sommaire.on {
-    height: auto;
-    max-height: calc(100% - 30px);
 }
 
 button.btn-sommaire {
@@ -269,42 +227,5 @@ button.btn-sommaire {
 @media (max-width: 900px) {
     article h1 {
         text-align: left;
-    }
-}
-
-@media (max-width: 830px) {
-    header.scroll #BoutonsNavigation {
-        border-radius: 0;
-        top: 80px;
-        background: var(--blanc);
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
-        border: 1px solid var(--grisNuance2);
-        border-top: none;
-        border-right: none;
-        box-shadow: none;
-    }
-
-    header.scroll #BoutonsNavigation {
-        border-radius: 0;
-        top: 80px;
-        background: var(--blanc);
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
-        border: 1px solid var(--grisNuance2);
-        border-top: none;
-        border-right: none;
-        box-shadow: none;
-    }
-
-    header.scroll h1 {
-        width: 100%;
-    }
-}
-
-
-@media (max-width: 330px) {
-    header.scroll h1 {
-        font-size: 1.4rem;
     }
 }

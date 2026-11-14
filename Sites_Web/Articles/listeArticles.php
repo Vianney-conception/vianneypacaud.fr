@@ -4,7 +4,8 @@ $config = [
     'ML' => 'Mentions légales',
     'GVD' => 'Gestion de vos données',
     'Recherche' => 'Rechercher sur ce site',
-    'SuppFond' =>  'API de détourage'
+    'SuppFond' =>  'API de détourage',
+    'GervoOutils' => 'Gervo Outils'
 ];
 
 $Resume = [
@@ -12,5 +13,6 @@ $Resume = [
     'ML' => 'Retrouvez les mentions légales du site de Vianney Pacaud, entrepreneur individuel : informations sur l\'éditeur, coordonnées de l\'hébergeur o2switch et droits de propriété intellectuelle.',
     'GVD' => 'Consultez notre politique de gestion des données personnelles et de visite : informations recueillies, traitement éphémère de vos API en RAM et exercice de vos droits RGPD.',
     'Recherche' => 'Utilisez notre moteur de recherche interne pour retrouver instantanément tous les articles, sections détaillées, repères et outils disponibles sur l\'ensemble du site de Vianney.',
-    'SuppFond' => 'Détourez vos images en quelques secondes, directement dans votre navigateur. Choisissez une photo, lancez le détourage : l’arrière-plan est supprimé automatiquement grâce à des modèles de détourage open source tels que U2-Net. Rapide, simple, gratuit et sans inscription.'
-];
+    'SuppFond' => 'Détourez vos images en quelques secondes, directement dans votre navigateur. Choisissez une photo, lancez le détourage : l’arrière-plan est supprimé automatiquement grâce à des modèles de détourage open source tels que U2-Net. Rapide, simple, gratuit et sans inscription.',
+    'GervoOutils' => 'Retrouver l\'ensemble des outils mis à votre disposition gratuitement par l\'association Gervo. Détourer vos images, partager vos fichiers, chiffrer des documents et bien d\'autres choses encore...'
+    ];

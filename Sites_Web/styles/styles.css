@@ -205,6 +205,7 @@ a {
     position: relative;
     text-decoration: none;
     width: max-content;
+    outline: none;
 }
 
 .animation::after {
@@ -221,8 +222,10 @@ a {
 }
 
 .animation:hover::after,
+.animation:focus::after, 
 .animation.active::after {
     transform: scaleX(1);
+    outline: none;
 }
 
 .glass-box {
@@ -275,11 +278,13 @@ button,input[type="file"] {
     transition: all 0.3s ease;
 }
 
-button:hover,input[type="file"]:hover {
+button:hover,input[type="file"]:hover,button:focus:not(.NonFocus),input[type="file"]:focus {
     stroke: var(--vertModeClaire);
     color: var(--vertModeClaire);
 }
-
+button:focus:not(.NonFocus),input[type="file"]:focus{
+    outline: 2px var(--vertModeClaire) solid;
+}
 button.stylebtn,input[type="file"].stylebtn {
     box-shadow: var(--ombre1);
     display: flex;
@@ -753,9 +758,10 @@ h3 {
     padding-top: 5px;
     background-color: var(--blanc);
 }
-.ZonedeProposition a:hover{
+.ZonedeProposition a:hover,.ZonedeProposition a:focus{
     background-size: 0 0;
     background-color: var(--grisClair);
+    outline: unset;
 }
 #ZonedeRecherche input{
     width: 100%;
@@ -948,7 +954,7 @@ footer nav {
 .btn-remonter {
     position: fixed;
     bottom: 10px;
-    right: -50px;
+    right: -70px;
     z-index: 200;
     transition: all ease 0.3s;
 }
@@ -956,7 +962,9 @@ footer nav {
 .btn-remonter.scroll {
     right: 10px;
 }
-
+.btn-remonter:focus{
+    bottom: 15px;
+}
 @media (max-width: 900px) {
     .philosophie-scroll-zone {
         height: auto;

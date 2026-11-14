@@ -29,6 +29,7 @@ $fichier_a_inclure = $article_cible . '_Article.php';
     </title>
     <link rel="stylesheet" href="/styles/styles.css">
     <link rel="stylesheet" href="/styles/articles.css">
+    <link rel="stylesheet" href="/styles/headerArticle.css">
     <script src="/JS/chargement.js"></script>
     <link rel="icon" href="https://vianneypacaud.fr/img/LogoCouleur.png" type="image/x-icon">
     <?php include '../Partage.php' ?>

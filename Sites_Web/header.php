@@ -1,20 +1,34 @@
 <?php
-$current_page = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+$request_uri = $_SERVER['REQUEST_URI'];
+$current_page = trim(parse_url($request_uri, PHP_URL_PATH), '/');
 $is_home = ($current_page === '' || $current_page === 'index.php' || $current_page === 'index');
+
+// Vérifie si l'URL contient le mot "gervo" (insensible à la casse si besoin avec stripos)
+$is_gervo = (stripos($request_uri, 'gervo') !== false);
 ?>
 <header class="">
     <a href="/" class="lienVersAcceuil">
         <div class="logo">
-            <img src="https://vianneypacaud.fr/img/LogoCouleur.png" alt="Logo Vianney Pacaud"
-                class="h-full w-auto object-contain"
-                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <?php if ($is_gervo): ?>
+                <img src="https://vianneypacaud.fr/img/LogoGervo.png" alt="Logo Gervo"
+                    class="h-full w-auto object-contain"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <?php else: ?>
+                <img src="https://vianneypacaud.fr/img/LogoCouleur.png" alt="Logo Vianney Pacaud"
+                    class="h-full w-auto object-contain"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <?php endif; ?>
         </div>
 
-        <h1><strong class="Bleu">Vianney</strong> <strong class="Vert">Pacaud</strong><strong class="Bleu">.</strong>
-        </h1>
+        <?php if ($is_gervo): ?>
+            <h1><strong class="Vert">Gervo</strong><strong class="Bleu">.</strong></h1>
+        <?php else: ?>
+            <h1><strong class="Bleu">Vianney</strong> <strong class="Vert">Pacaud</strong><strong class="Bleu">.</strong></h1>
+        <?php endif; ?>
     </a>
+
     <button id="MenuBurger" onclick="toggleModal('BoutonsNavigation');toggleModal('MenuBurger')"
-        class="MenuBurger Clic-Particule"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+        class="MenuBurger NonFocus Clic-Particule"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
             viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
             class="lucide lucide-menu-icon lucide-menu">
             <path d="M4 5h16" class="line-top" />
@@ -23,20 +37,27 @@ $is_home = ($current_page === '' || $current_page === 'index.php' || $current_pa
         </svg></button>
 
     <nav id="BoutonsNavigation">
-        <?php if ($is_home): ?>
-            <a id="btnApropos" class="animation Clic-Particule" href="#A_proposRepere">À PROPOS</a>
-            <a class="animation Clic-Particule" id="btnProjet" href="#Projet">PROJETS</a>
-            <a class="animation Clic-Particule" id="btnContact" href="#Contact">CONTACT</a>
-            <a class="animation Clic-Particule" href="/Client/">ESPACE CLIENT</a>
-        <?php else: ?>
+        <?php if ($is_gervo): ?>
             <a class="animation Clic-Particule" href="/">ACCUEIL</a>
-            <a class="animation Clic-Particule" href="/Articles/Recherche">RECHERCHER</a>
+            <a class="animation Clic-Particule" href="/Gervo/Outils">OUTILS</a>
             <a class="animation Clic-Particule" href="/#Contact">CONTACT</a>
-            <a class="animation Clic-Particule" href="/Client/">ESPACE CLIENT</a>
+            <a class="animation Clic-Particule" href="/Client/">ESPACE MEMBRE</a>
+        <?php else: ?>
+            <?php if ($is_home): ?>
+                <a id="btnApropos" class="animation Clic-Particule" href="#A_proposRepere">À PROPOS</a>
+                <a class="animation Clic-Particule" id="btnProjet" href="#Projet">PROJETS</a>
+                <a class="animation Clic-Particule" id="btnContact" href="#Contact">CONTACT</a>
+                <a class="animation Clic-Particule" href="/Client/">ESPACE CLIENT</a>
+            <?php else: ?>
+                <a class="animation Clic-Particule" href="/">ACCUEIL</a>
+                <a class="animation Clic-Particule" href="/Articles/Recherche">RECHERCHER</a>
+                <a class="animation Clic-Particule" href="/#Contact">CONTACT</a>
+                <a class="animation Clic-Particule" href="/Client/">ESPACE CLIENT</a>
+            <?php endif; ?>
         <?php endif; ?>
     </nav>
 </header>
-<?php if ($is_home): ?>
+<?php if ($is_home && !$is_gervo): ?>
 <script>
   document.addEventListener("DOMContentLoaded",()=>{const navLinks=document.querySelectorAll("#BoutonsNavigation a[href^='#']");if(!navLinks.length)return;let isScrollingToSection=!1;const observerOptions={root:null,rootMargin:"-20% 0px -50% 0px",threshold:0.1};const observer=new IntersectionObserver((entries)=>{if(isScrollingToSection)return;let anyIntersecting=!1;entries.forEach(entry=>{if(entry.isIntersecting){anyIntersecting=!0;const targetId=entry.target.getAttribute('id');navLinks.forEach(link=>{link.classList.remove('active');if(link.getAttribute('href')===`#${targetId}`){link.classList.add('active')}})}});if(!anyIntersecting){navLinks.forEach(link=>link.classList.remove('active'))}},observerOptions);navLinks.forEach(link=>{const href=link.getAttribute('href');const targetSection=document.querySelector(href);if(targetSection){observer.observe(targetSection)}
 link.addEventListener('click',()=>{isScrollingToSection=!0;navLinks.forEach(l=>l.classList.remove('active'));link.classList.add('active');setTimeout(()=>{isScrollingToSection=!1},800)})});window.addEventListener('scroll',()=>{if(isScrollingToSection)return;const scrollPosition=window.scrollY;const documentHeight=document.documentElement.scrollHeight-window.innerHeight;if(scrollPosition<50||scrollPosition>=documentHeight-50){navLinks.forEach(link=>link.classList.remove('active'))}})})
