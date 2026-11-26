@@ -1,6 +1,7 @@
 <?php
 $config = [
-    'GervoOutils' => 'Gervo Outils'
+    'GervoOutils' => 'Outils',
+    'partage' => 'Partage'
 ];
 
 $Resume = [

@@ -222,7 +222,7 @@ a {
 }
 
 .animation:hover::after,
-.animation:focus::after, 
+.animation:focus-visible::after, 
 .animation.active::after {
     transform: scaleX(1);
     outline: none;
@@ -278,11 +278,11 @@ button,input[type="file"] {
     transition: all 0.3s ease;
 }
 
-button:hover,input[type="file"]:hover,button:focus:not(.NonFocus),input[type="file"]:focus {
+button:hover,input[type="file"]:hover,button:focus-visible:not(.NonFocus),input[type="file"]:focus-visible {
     stroke: var(--vertModeClaire);
     color: var(--vertModeClaire);
 }
-button:focus:not(.NonFocus),input[type="file"]:focus{
+button:focus-visible:not(.NonFocus),input[type="file"]:focus-visible{
     outline: 2px var(--vertModeClaire) solid;
 }
 button.stylebtn,input[type="file"].stylebtn {
@@ -758,7 +758,7 @@ h3 {
     padding-top: 5px;
     background-color: var(--blanc);
 }
-.ZonedeProposition a:hover,.ZonedeProposition a:focus{
+.ZonedeProposition a:hover,.ZonedeProposition a:focus-visible{
     background-size: 0 0;
     background-color: var(--grisClair);
     outline: unset;
@@ -767,7 +767,7 @@ h3 {
     width: 100%;
     font-size: 1.3rem;
 }
-.ZonedeRechercheContenant:has(input:focus),
+.ZonedeRechercheContenant:has(input:focus-visible),
 .ZonedeRechercheContenant:has(input:hover),
 .ZonedeRechercheContenant:has(input.contient){
     border: 1px solid var(--grisNuance2);
@@ -962,7 +962,7 @@ footer nav {
 .btn-remonter.scroll {
     right: 10px;
 }
-.btn-remonter:focus{
+.btn-remonter:focus-visible{
     bottom: 15px;
 }
 @media (max-width: 900px) {

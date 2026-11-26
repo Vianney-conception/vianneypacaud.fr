@@ -29,6 +29,9 @@ $fichier_a_inclure = $article_cible . '_Article.php';
     </title>
     <link rel="stylesheet" href="/styles/styles.css">
     <link rel="stylesheet" href="/styles/articles.css">
+    <?php if ($article_cible != "GervoOutils"){
+        echo '<link rel="stylesheet" href="/styles/headerArticle.css">';
+    } ?>
     <script src="/JS/chargement.js"></script>
     <link rel="icon" href="https://vianneypacaud.fr/img/LogoGervo.png" type="image/x-icon">
     <?php include '../Partage.php' ?>

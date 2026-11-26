@@ -91,8 +91,8 @@ article a,
     text-decoration: none;
 }
 
-article a:hover,article a:focus,
-#contenuSommaire nav ul li a:hover,#contenuSommaire nav ul li a:focus {
+article a:hover,article a:focus-visible,
+#contenuSommaire nav ul li a:hover,#contenuSommaire nav ul li a:focus-visible {
     background-size: 100% 2px;
     outline: none;
 }
@@ -101,7 +101,7 @@ article a:hover,article a:focus,
     background-image: linear-gradient(var(--bleuModeClaire), var(--bleuModeClaire));
 }
 
-#contenuSommaire nav ul li a.active:hover,#contenuSommaire nav ul li a.active:focus {
+#contenuSommaire nav ul li a.active:hover,#contenuSommaire nav ul li a.active:focus-visible {
     background-size: 100% 2px;
 }
 

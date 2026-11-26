@@ -3,7 +3,6 @@ $request_uri = $_SERVER['REQUEST_URI'];
 $current_page = trim(parse_url($request_uri, PHP_URL_PATH), '/');
 $is_home = ($current_page === '' || $current_page === 'index.php' || $current_page === 'index');
 
-// Vérifie si l'URL contient le mot "gervo" (insensible à la casse si besoin avec stripos)
 $is_gervo = (stripos($request_uri, 'gervo') !== false);
 ?>
 <header class="">
@@ -21,7 +20,8 @@ $is_gervo = (stripos($request_uri, 'gervo') !== false);
         </div>
 
         <?php if ($is_gervo): ?>
-            <h1><strong class="Vert">Gervo</strong><strong class="Bleu">.</strong></h1>
+            <h1><strong class="<?php if (isset($article_cible) && $article_cible != "GervoOutils"){echo 'Bleu';}else{echo'Vert';} ?>">Gervo</strong><?php if (isset($article_cible) && $article_cible != "GervoOutils") {echo '<strong class="Vert">'.$config[$article_cible].'</strong>';} ?>
+<strong class="Bleu">.</strong></h1>
         <?php else: ?>
             <h1><strong class="Bleu">Vianney</strong> <strong class="Vert">Pacaud</strong><strong class="Bleu">.</strong></h1>
         <?php endif; ?>
